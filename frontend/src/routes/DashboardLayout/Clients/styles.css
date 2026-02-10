@@ -1,0 +1,173 @@
+melhore esse e tire os repetitivos: .dashboard-clients {
+    padding: 32px;
+}
+
+.dashboard-clients h1 {
+    font-size: 28px;
+    font-weight: 600;
+}
+
+.subtitle {
+    color: #6b7280;
+    margin-bottom: 24px;
+}
+
+.clients-table-container {
+    height: 100%;
+}
+
+/* Header + toolbar */
+.clients-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #0D47A1, #1E88E5);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 16px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(30, 136, 229, 0.3);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 26px rgba(30, 136, 229, 0.35);
+}
+
+.clients-toolbar {
+    margin-bottom: 16px;
+}
+
+.search-box {
+    max-width: 360px;
+    background: white;
+    border-radius: 10px;
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: inset 2px 2px 6px rgba(0, 0, 0, 0.08),
+        inset -2px -2px 6px rgba(255, 255, 255, 0.9);
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+}
+
+/* Nome com avatar */
+.client-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1E88E5, #64B5F6);
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-badge.active {
+    background: #E8F5E9;
+    color: #2E7D32;
+}
+
+.clients-toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.clients-toolbar-search {
+    display: flex;
+  justify-content: flex-start;
+}
+
+@media (max-width: 768px) {
+  .clients-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .search-box {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .clients-table thead {
+    display: none;
+  }
+
+  .clients-table,
+  .clients-table tbody,
+  .clients-table tr,
+  .clients-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .clients-table tr {
+    margin-bottom: 16px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(30, 136, 229, 0.12);
+    padding: 12px;
+  }
+
+  .clients-table td {
+    padding: 10px 12px;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .clients-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #6b7280;
+    font-size: 12px;
+  }
+
+  .client-name {
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .actions {
+    justify-content: flex-end;
+    gap: 10px;
+  }
+}

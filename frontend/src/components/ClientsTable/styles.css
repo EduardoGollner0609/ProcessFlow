@@ -1,0 +1,79 @@
+.clients-table-container {
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(30, 136, 229, 0.12);
+    overflow-x: auto;
+    height: 100%;
+}
+
+.clients-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.clients-table thead {
+    background: linear-gradient(135deg, #0D47A1, #1E88E5);
+    color: white;
+}
+
+.clients-table th,
+.clients-table td {
+    padding: 14px 16px;
+    text-align: left;
+}
+
+.clients-table th {
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.5px;
+}
+
+.clients-table tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.2s ease;
+}
+
+.clients-table tbody tr:hover {
+    background: #f5f9ff;
+}
+
+.clients-table td {
+    color: #374151;
+}
+
+.action-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+    margin-right: 6px;
+    transition: all 0.2s ease;
+}
+
+.action-btn.view {
+    background: #e3f2fd;
+    color: #1e88e5;
+}
+
+.action-btn.edit {
+    background: #fff8e1;
+    color: #f9a825;
+}
+
+.action-btn.remove {
+    background: #e24d16;
+    color: #ffffff;
+}
+
+.action-btn:hover {
+    opacity: 0.85;
+}
+
+.clients-table-empty {
+  text-align: center;
+  padding: 32px;
+  font-size: 14px;
+  color: #6b7280;
+}

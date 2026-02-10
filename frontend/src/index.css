@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=SN+Pro:ital,wght@0,200..900;1,200..900&display=swap');
 
+:root {
+  --color-primary: #1E88E5;
+  --color-secondary: #FFF;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -19,6 +24,25 @@ input {
   border: none;
 }
 
+button {
+  border: none;
+  cursor: pointer;
+}
+
 main {
   padding: 0 20px;
+}
+
+html, body, main, #root, .dashboard-layout, .dashboard-home {
+  height: 100%;
+}
+
+.dashboard-content {
+  margin-left: 70px;
+  padding: 20px;
+  transition: margin-left 0.3s ease;
+}
+
+.subtitle {
+    color: #6b7280;
 }

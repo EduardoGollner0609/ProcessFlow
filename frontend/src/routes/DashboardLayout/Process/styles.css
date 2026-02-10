@@ -1,0 +1,144 @@
+.dashboard-processes {
+    padding: 24px;
+}
+
+.processes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.subtitle {
+    color: #6b7280;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #1e88e5, #0d47a1);
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.processes-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+}
+
+.process-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.process-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+}
+
+.process-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.process-card-header h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.process-description {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin: 8px 0 12px;
+}
+
+.process-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #374151;
+}
+
+.process-info div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.process-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.action-btn {
+    border: none;
+    background: #f3f4f6;
+    padding: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.action-btn:hover {
+    transform: scale(1.05);
+}
+
+.action-btn.view:hover {
+    background: #dbeafe;
+}
+
+.action-btn.edit:hover {
+    background: #fef3c7;
+}
+
+.action-btn.remove:hover {
+    background: #fee2e2;
+}
+
+/* Status badges */
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.status-badge.open {
+    background: #dbeafe;
+    color: #1e3a8a;
+}
+
+.status-badge.in_progress {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-badge.done {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-badge.canceled {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.processes-empty {
+    text-align: center;
+    color: #6b7280;
+    margin-top: 32px;
+}
