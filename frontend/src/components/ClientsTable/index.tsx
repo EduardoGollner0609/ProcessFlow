@@ -1,11 +1,17 @@
-import { FaEdit, FaEye, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaEye, FaTrash, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import './styles.css';
+import { ClientMinDTO } from '../../models/client';
 
 interface ClientsTableProps {
-    clients: any[]
+    clients: ClientMinDTO[]
+    pageNumber: number
+    lastPage: boolean
+    firstPage: boolean
+    nextPageFunction: () => void
+    prevPageFunction: () => void
 }
 
-export default function ClientsTable({ clients }: ClientsTableProps) {
+export default function ClientsTable({ clients, pageNumber, lastPage, firstPage, nextPageFunction, prevPageFunction }: ClientsTableProps) {
     return (
         <div className="clients-table-container">
             <table className="clients-table">
@@ -19,9 +25,9 @@ export default function ClientsTable({ clients }: ClientsTableProps) {
                     </tr>
                 </thead>
                 <tbody>
-                    {clients.length === 0 ? (
+                    {clients?.length === 0 ? (
                         <tr>
-                            <td colSpan={4} className="clients-table-empty">
+                            <td colSpan={5} className="clients-table-empty">
                                 Nenhum cliente cadastrado ainda.
                             </td>
                         </tr>
@@ -45,6 +51,17 @@ export default function ClientsTable({ clients }: ClientsTableProps) {
                     )}
                 </tbody>
             </table>
+
+        
+            <div className="pagination-controls">
+                <button onClick={prevPageFunction} disabled={firstPage}>
+                    <FaArrowLeft /> Anterior
+                </button>
+                <span>Página {pageNumber + 1}</span>
+                <button onClick={nextPageFunction} disabled={lastPage}>
+                    Próxima <FaArrowRight />
+                </button>
+            </div>
         </div>
     )
 }
