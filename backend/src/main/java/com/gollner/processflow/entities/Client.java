@@ -25,7 +25,7 @@ public class Client {
     @OneToMany(mappedBy = "client")
     private List<Process> processes = new ArrayList<>();
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     private User user;
 
