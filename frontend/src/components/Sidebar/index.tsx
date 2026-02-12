@@ -17,7 +17,7 @@ export default function SideBar() {
             <div className="side-bar-navegation-list">
 
                 <div className="side-bar-option-navegation">
-                    <NavLink to="/home" className={({ isActive }) =>
+                    <NavLink to="/dashboard/home" className={({ isActive }) =>
                         isActive ? "side-bar-option-navegation-active" : ""
                     }>
                         <FaHome />
@@ -26,7 +26,7 @@ export default function SideBar() {
                 </div>
 
                    <div className="side-bar-option-navegation">
-                    <NavLink to="/processes" className={({ isActive }) =>
+                    <NavLink to="/dashboard/processes" className={({ isActive }) =>
                         isActive ? "side-bar-option-navegation-active" : ""
                     }>
                         <FaFolderOpen />
@@ -35,7 +35,7 @@ export default function SideBar() {
                 </div>
 
                 <div className="side-bar-option-navegation">
-                    <NavLink to="/search" className={({ isActive }) =>
+                    <NavLink to="dashboard/tasks" className={({ isActive }) =>
                         isActive ? "side-bar-option-navegation-active" : ""
                     }>
                         <FaTasks />
@@ -45,7 +45,7 @@ export default function SideBar() {
 
 
                 <div className="side-bar-option-navegation">
-                    <NavLink to="/clients" className={({ isActive }) =>
+                    <NavLink to="/dashboard/clients" className={({ isActive }) =>
                         isActive ? "side-bar-option-navegation-active" : ""
                     }>
                         <FaUsers />
@@ -54,7 +54,7 @@ export default function SideBar() {
                 </div>
 
                 <div className="side-bar-option-navegation">
-                    <NavLink to="/search" className={({ isActive }) =>
+                    <NavLink to="/about-us" className={({ isActive }) =>
                         isActive ? "side-bar-option-navegation-active" : ""
                     }>
                         <FaBell />

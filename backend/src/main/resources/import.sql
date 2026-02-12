@@ -1,6 +1,21 @@
-INSERT INTO tb_user(id, name, document, email, password, phone) VALUES (RANDOM_UUID(), 'Eduardo Gollner', '111.111.111-11', 'eduardo@email.com', '123456', '(27) 99999-0001');
-INSERT INTO tb_user(id, name, document, email, password, phone) VALUES (RANDOM_UUID(), 'Ana Paula', '222.222.222-22', 'ana.paula@email.com', '123456', '(27) 99999-0002');
-INSERT INTO tb_user(id, name, document, email, password, phone) VALUES (RANDOM_UUID(), 'Carlos Mendes', '333.333.333-33', 'carlos.mendes@email.com', '123456', '(27) 99999-0003');
-INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'João Silva', '123.456.789-00', 'joao.silva@email.com', '(27) 99999-1111', (SELECT id FROM tb_user LIMIT 1));
-INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Maria Oliveira', '987.654.321-00', 'maria.oliveira@email.com', '(27) 98888-2222', (SELECT id FROM tb_user LIMIT 1 OFFSET 1));
-INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Lucas Almeida', '159.753.486-00', 'lucas.almeida@email.com', '(27) 95555-5555', (SELECT id FROM tb_user LIMIT 1 OFFSET 2));
+INSERT INTO tb_user(id, name, document, email, password, phone) VALUES (RANDOM_UUID(), 'Bruno Henrique', '444.444.444-44', 'bruno@email.com', '123456', '(27) 99999-0004');
+INSERT INTO tb_user(id, name, document, email, password, phone) VALUES (RANDOM_UUID(), 'Fernanda Lima', '555.555.555-55', 'fernanda@email.com', '123456', '(27) 99999-0005');
+INSERT INTO tb_user(id, name, document, email, password, phone) VALUES (RANDOM_UUID(), 'Ricardo Souza', '666.666.666-66', 'ricardo@email.com', '123456', '(27) 99999-0006');
+INSERT INTO tb_user(id, name, document, email, password, phone) VALUES (RANDOM_UUID(), 'Juliana Martins', '777.777.777-77', 'juliana@email.com', '123456', '(27) 99999-0007');
+INSERT INTO tb_user(id, name, document, email, password, phone) VALUES (RANDOM_UUID(), 'Thiago Costa', '888.888.888-88', 'thiago@email.com', '123456', '(27) 99999-0008');
+
+INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Gabriel Santos', '101.101.101-01', 'gabriel@email.com', '(27) 99111-1001', (SELECT id FROM tb_user LIMIT 1 OFFSET 0));
+INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Patrícia Rocha', '202.202.202-02', 'patricia@email.com', '(27) 99111-1002', (SELECT id FROM tb_user LIMIT 1 OFFSET 1));
+INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Marcos Vinicius', '303.303.303-03', 'marcos@email.com', '(27) 99111-1003', (SELECT id FROM tb_user LIMIT 1 OFFSET 2));
+INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Camila Ferreira', '404.404.404-04', 'camila@email.com', '(27) 99111-1004', (SELECT id FROM tb_user LIMIT 1 OFFSET 3));
+INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Rodrigo Barbosa', '505.505.505-05', 'rodrigo@email.com', '(27) 99111-1005', (SELECT id FROM tb_user LIMIT 1 OFFSET 4));
+INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Amanda Ribeiro', '606.606.606-06', 'amanda@email.com', '(27) 99111-1006', (SELECT id FROM tb_user LIMIT 1 OFFSET 0));
+INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Felipe Andrade', '707.707.707-07', 'felipe@email.com', '(27) 99111-1007', (SELECT id FROM tb_user LIMIT 1 OFFSET 1));
+INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Larissa Gomes', '808.808.808-08', 'larissa@email.com', '(27) 99111-1008', (SELECT id FROM tb_user LIMIT 1 OFFSET 2));
+INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Daniel Carvalho', '909.909.909-09', 'daniel@email.com', '(27) 99111-1009', (SELECT id FROM tb_user LIMIT 1 OFFSET 3));
+INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Beatriz Nogueira', '111.222.333-44', 'beatriz@email.com', '(27) 99111-1010', (SELECT id FROM tb_user LIMIT 1 OFFSET 4));
+INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Gustavo Prado', '222.333.444-55', 'gustavo@email.com', '(27) 99111-1011', (SELECT id FROM tb_user LIMIT 1 OFFSET 2));
+INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Isabela Torres', '333.444.555-66', 'isabela@email.com', '(27) 99111-1012', (SELECT id FROM tb_user LIMIT 1 OFFSET 3));
+INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Leonardo Duarte', '444.555.666-77', 'leonardo@email.com', '(27) 99111-1013', (SELECT id FROM tb_user LIMIT 1 OFFSET 1));
+INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Vanessa Melo', '555.666.777-88', 'vanessa@email.com', '(27) 99111-1014', (SELECT id FROM tb_user LIMIT 1 OFFSET 0));
+INSERT INTO tb_client(id, name, document, email, phone, user_id) VALUES (RANDOM_UUID(), 'Rafael Dias', '666.777.888-99', 'rafael@email.com', '(27) 99111-1015', (SELECT id FROM tb_user LIMIT 1 OFFSET 4));
