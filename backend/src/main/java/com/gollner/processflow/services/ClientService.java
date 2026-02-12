@@ -18,8 +18,8 @@ public class ClientService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ClientMinDTO> findAll(Pageable pageable) {
-        Page<Client> clients = repository.findAll(pageable);
+    public Page<ClientMinDTO> findAllByName(Pageable pageable, String name) {
+        Page<Client> clients = repository.findAllByName(pageable, name);
         return clients.map(ClientMinDTO::new);
     }
 }

@@ -5,3 +5,8 @@ export type ClientMinDTO = {
     email: string,
     phone: string
 }
+
+export type ClientsPaged = {
+    content: ClientMinDTO[],
+    last: boolean
+}

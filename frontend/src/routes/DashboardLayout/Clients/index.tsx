@@ -4,6 +4,7 @@ import './styles.css'
 import { useState } from 'react'
 import NewClientDialog from '../../../components/NewClientDialog'
 import useClients from '../../../hooks/use-clients'
+import { formatReplaceLetters } from '../../../utils/format'
 
 interface QueryParams {
     page: number;
@@ -19,14 +20,10 @@ export default function ClientsList() {
         name: "",
     });
 
-    const { data, isLoading, isError } = useClients(queryParams.page, queryParams.name);
+    const { data: clientsPaged, isLoading, isError } = useClients(queryParams.page, queryParams.name);
 
     function handleSearch(searchText: string) {
         setQueryParams({ ...queryParams, page: 0, name: searchText });
-    }
-
-    function handleNextPageClick() {
-        setQueryParams({ ...queryParams, page: queryParams.page + 1 });
     }
 
     return (
@@ -44,27 +41,24 @@ export default function ClientsList() {
                 <div className="clients-toolbar-search">
                     <div className="search-box">
                         <FaSearch />
-                        <input type="text" placeholder="Buscar por nome, email ou documento..." />
+                        <input
+                            onChange={e => handleSearch(e.target.value.trim())}
+                            type="text"
+                            placeholder="Buscar pelo nome" />
                     </div>
-
-                    <select className="filter-select">
-                        <option value="">Sem filtro</option>
-                        <option value="ativos">Ordem Alfábetica</option>
-                        <option value="inativos">Ordem de Criação</option>
-                    </select>
                 </div>
                 <button className="btn-primary" onClick={() => setNewClientDialog(true)}>
                     <FaPlus /> Novo Cliente
                 </button>
             </div>
-            {data && <ClientsTable
-                clients={data?.content}
+            <ClientsTable
+                clients={clientsPaged?.content ?? []}
                 pageNumber={queryParams.page}
-                lastPage={data?.last}
+                lastPage={clientsPaged?.last ?? true}
                 firstPage={queryParams.page === 0}
                 nextPageFunction={() => setQueryParams({ ...queryParams, page: queryParams?.page + 1 })}
                 prevPageFunction={() => setQueryParams({ ...queryParams, page: queryParams?.page - 1 })}
-            />}
+            />
             {
                 newClientDialog && <NewClientDialog open={newClientDialog} onClose={() => { setNewClientDialog(false) }} />
             }
