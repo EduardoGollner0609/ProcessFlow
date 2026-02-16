@@ -5,7 +5,7 @@ interface NewClientDialogProps {
     open: boolean,
     onClose: () => void
 }
-export default function NewClientDialog({ open, onClose }: NewClientDialogProps) {
+export default function CreateClientDialog({ open, onClose }: NewClientDialogProps) {
     if (!open) return null;
 
     return (

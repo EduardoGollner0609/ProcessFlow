@@ -2,20 +2,14 @@ import { FaPlus, FaSearch } from 'react-icons/fa'
 import ClientsTable from '../../../components/ClientsTable'
 import './styles.css'
 import { useState } from 'react'
-import NewClientDialog from '../../../components/NewClientDialog'
-import useClients from '../../../hooks/use-clients'
-import { formatReplaceLetters } from '../../../utils/format'
-
-interface QueryParams {
-    page: number;
-    name: string;
-};
+import useClients from '../../../hooks/clients/use-clients'
+import CreateClientDialog from '../../../components/CreateClientDialog'
 
 export default function ClientsList() {
 
-    const [newClientDialog, setNewClientDialog] = useState<boolean>(false)
+    const [showCreateClientDialog, setShowCreateClientDialog] = useState<boolean>(false)
 
-    const [queryParams, setQueryParams] = useState<QueryParams>({
+    const [queryParams, setQueryParams] = useState<{ page: number, name: string }>({
         page: 0,
         name: "",
     });
@@ -27,41 +21,53 @@ export default function ClientsList() {
     }
 
     return (
-        <div className="dashboard-clients">
-            <div className="clients-header">
-                <div>
-                    <h1>Clientes</h1>
-                    <p>Aqui estão os seus clientes cadastrados.</p>
+        <section className="pfp-wrap">
+            <header className="pfp-head">
+                <div className="pfp-head__left">
+                    <h2 className="pfp-title">Clientes</h2>
+                    <p className="pfp-subtitle">
+                        Aqui estão os seus clientes cadastrados.
+                    </p>
                 </div>
 
-
-            </div>
-
-            <div className="clients-toolbar">
-                <div className="clients-toolbar-search">
-                    <div className="search-box">
-                        <FaSearch />
+                <div className="pfp-head__right">
+                    <div className="pfp-search">
+                        <FaSearch className="pfp-search__icon" />
                         <input
                             onChange={e => handleSearch(e.target.value.trim())}
                             type="text"
-                            placeholder="Buscar pelo nome" />
+                            placeholder="Buscar pelo nome..."
+                        />
                     </div>
+
+                    <button
+                        className="pfp-btn pfp-btn--primary"
+                        onClick={() => setShowCreateClientDialog(true)}
+                    >
+                        <FaPlus /> Novo Cliente
+                    </button>
                 </div>
-                <button className="btn-primary" onClick={() => setNewClientDialog(true)}>
-                    <FaPlus /> Novo Cliente
-                </button>
-            </div>
+            </header>
+
             <ClientsTable
                 clients={clientsPaged?.content ?? []}
                 pageNumber={queryParams.page}
                 lastPage={clientsPaged?.last ?? true}
                 firstPage={queryParams.page === 0}
-                nextPageFunction={() => setQueryParams({ ...queryParams, page: queryParams?.page + 1 })}
-                prevPageFunction={() => setQueryParams({ ...queryParams, page: queryParams?.page - 1 })}
+                nextPageFunction={() =>
+                    setQueryParams({ ...queryParams, page: queryParams.page + 1 })
+                }
+                prevPageFunction={() =>
+                    setQueryParams({ ...queryParams, page: queryParams.page - 1 })
+                }
             />
-            {
-                newClientDialog && <NewClientDialog open={newClientDialog} onClose={() => { setNewClientDialog(false) }} />
-            }
-        </div>
+
+            {showCreateClientDialog && (
+                <CreateClientDialog
+                    open={showCreateClientDialog}
+                    onClose={() => setShowCreateClientDialog(false)}
+                />
+            )}
+        </section>
     )
 }

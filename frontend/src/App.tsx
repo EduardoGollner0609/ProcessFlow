@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import DashboardLayout from './routes/DashboardLayout'
 import DashboardHome from './routes/DashboardLayout/DashboardHome'
 import ClientsList from './routes/DashboardLayout/Clients'

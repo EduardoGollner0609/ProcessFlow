@@ -1,6 +1,7 @@
-import { FaEdit, FaEye, FaTrash, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { FaEdit, FaEye, FaTrash } from 'react-icons/fa';
 import './styles.css';
 import { ClientMinDTO } from '../../models/client';
+import PaginationControl from '../PaginationControl';
 
 interface ClientsTableProps {
     clients: ClientMinDTO[]
@@ -51,17 +52,12 @@ export default function ClientsTable({ clients, pageNumber, lastPage, firstPage,
                     )}
                 </tbody>
             </table>
-
-        
-            <div className="pagination-controls">
-                <button onClick={prevPageFunction} disabled={firstPage}>
-                    <FaArrowLeft /> Anterior
-                </button>
-                <span>Página {pageNumber + 1}</span>
-                <button onClick={nextPageFunction} disabled={lastPage}>
-                    Próxima <FaArrowRight />
-                </button>
-            </div>
+            <PaginationControl
+                prevPageFunction={prevPageFunction}
+                nextPageFunction={nextPageFunction}
+                firstPage={firstPage}
+                lastPage={lastPage}
+                pageNumber={pageNumber} />
         </div>
     )
 }
