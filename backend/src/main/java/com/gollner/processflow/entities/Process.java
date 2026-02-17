@@ -32,10 +32,9 @@ public class Process {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant dueDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User responsibleUser;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "client_id")
     private Client client;

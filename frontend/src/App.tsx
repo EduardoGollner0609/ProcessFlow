@@ -4,12 +4,14 @@ import DashboardHome from './routes/DashboardLayout/DashboardHome'
 import ClientsList from './routes/DashboardLayout/Clients'
 import ProcessList from './routes/DashboardLayout/Process'
 import AboutUs from './routes/DashboardLayout/AboutUs'
+import LoginPage from './routes/Login'
 
 function App() {
 
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<LoginPage />} />
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route path="home" element={<DashboardHome />} />
           <Route path="clients" element={<ClientsList />} />
