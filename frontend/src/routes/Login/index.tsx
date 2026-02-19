@@ -1,6 +1,7 @@
+import LoginForm from "../../components/LoginForm";
 import "./styles.css";
 
-export default function Login() {
+export default function LoginPage() {
   return (
     <main className="pf-login">
       <div className="pf-login__bg" aria-hidden="true" />
@@ -21,73 +22,7 @@ export default function Login() {
                 </p>
               </div>
             </header>
-
-            <form className="pf-login__form" onSubmit={(e) => e.preventDefault()}>
-              <div className="pf-field">
-                <label className="pf-label" htmlFor="email">
-                  E-mail
-                </label>
-
-                <div className="pf-inputWrap">
-                  <input
-                    className="pf-input"
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="seuemail@empresa.com"
-                    autoComplete="email"
-                    required
-                  />
-                </div>
-
-                {/* erro opcional */}
-                {/* <p className="pf-error">E-mail inválido</p> */}
-              </div>
-
-              <div className="pf-field">
-                <label className="pf-label" htmlFor="password">
-                  Senha
-                </label>
-
-                <div className="pf-inputWrap">
-                  <input
-                    className="pf-input"
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="••••••••"
-                    autoComplete="current-password"
-                    minLength={6}
-                    required
-                  />
-                </div>
-
-                {/* erro opcional */}
-                {/* <p className="pf-error">Senha inválida</p> */}
-              </div>
-
-              <div className="pf-login__row">
-                <label className="pf-check">
-                  <input type="checkbox" name="remember" defaultChecked />
-                  <span>Lembrar de mim</span>
-                </label>
-
-                <a className="pf-link" href="#">
-                  Esqueci minha senha
-                </a>
-              </div>
-
-              <button className="pf-btn" type="submit">
-                Entrar
-              </button>
-
-              <p className="pf-login__foot">
-                Não tem conta?{" "}
-                <a className="pf-link" href="#">
-                  Criar agora
-                </a>
-              </p>
-            </form>
+            <LoginForm />
           </div>
 
           {/* RIGHT / PANEL */}

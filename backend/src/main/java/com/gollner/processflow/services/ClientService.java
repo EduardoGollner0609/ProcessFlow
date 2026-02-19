@@ -1,6 +1,6 @@
 package com.gollner.processflow.services;
 
-import com.gollner.processflow.dto.ClientMinDTO;
+import com.gollner.processflow.dto.clients.ClientMinDTO;
 import com.gollner.processflow.entities.Client;
 import com.gollner.processflow.repositories.ClientRepository;
 import org.springframework.data.domain.Page;

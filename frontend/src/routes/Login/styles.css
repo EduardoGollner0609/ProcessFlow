@@ -1,335 +1,216 @@
-:root{
-  --pf-primary:#0B3C91;
-  --pf-primary-2:#1E66D0;
-  --pf-bg:#F5F7FB;
-  --pf-text:#0F172A;
-  --pf-muted:#64748B;
-  --pf-border:#E5E7EB;
-  --pf-card:#FFFFFF;
+:root {
+  --pf-primary: #0B3C91;
+  --pf-primary-2: #1E66D0;
+  --pf-bg: #F5F7FB;
+  --pf-text: #0F172A;
+  --pf-muted: #64748B;
+  --pf-border: #E5E7EB;
+  --pf-card: #FFFFFF;
   --pf-shadow: 0 18px 60px rgba(2, 6, 23, 0.08);
-
   /* extras úteis pro login */
   --pf-radius: 18px;
   --pf-danger: #EF4444;
 }
 
-*{ box-sizing:border-box; }
-html,body{ height:100%; }
-body{
-  margin:0;
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
   color: var(--pf-text);
   background: var(--pf-bg);
 }
 
-.pf-login{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.pf-login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 28px 16px;
-  position:relative;
-  overflow:hidden;
-  background:
-    radial-gradient(900px 600px at 15% 10%, rgba(11,60,145,0.12), transparent 60%),
-    radial-gradient(900px 650px at 85% 35%, rgba(30,102,208,0.10), transparent 55%),
-    linear-gradient(180deg, #F7F9FF, var(--pf-bg));
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(900px 600px at 15% 10%, rgba(11, 60, 145, 0.12), transparent 60%), radial-gradient(900px 650px at 85% 35%, rgba(30, 102, 208, 0.10), transparent 55%), linear-gradient(180deg, #F7F9FF, var(--pf-bg));
 }
 
-.pf-login__bg{
-  position:absolute;
-  inset:-40px;
-  background:
-    radial-gradient(700px 450px at 35% 25%, rgba(11,60,145,0.10), transparent 60%),
-    radial-gradient(650px 420px at 75% 65%, rgba(30,102,208,0.08), transparent 58%);
+.pf-login__bg {
+  position: absolute;
+  inset: -40px;
+  background: radial-gradient(700px 450px at 35% 25%, rgba(11, 60, 145, 0.10), transparent 60%), radial-gradient(650px 420px at 75% 65%, rgba(30, 102, 208, 0.08), transparent 58%);
   filter: blur(10px);
   opacity: 1;
-  pointer-events:none;
+  pointer-events: none;
 }
 
-.pf-login__wrap{
+.pf-login__wrap {
   width: min(1020px, 100%);
-  position:relative;
-  z-index:1;
+  position: relative;
+  z-index: 1;
 }
 
-.pf-login__card{
-  display:grid;
+.pf-login__card {
+  display: grid;
   grid-template-columns: 1.05fr .95fr;
   border: 1px solid var(--pf-border);
   background: var(--pf-card);
   border-radius: var(--pf-radius);
   box-shadow: var(--pf-shadow);
-  overflow:hidden;
+  overflow: hidden;
 }
 
-.pf-login__left{
+.pf-login__left {
   padding: 34px 34px 28px;
 }
 
-.pf-login__brand{
-  display:flex;
+.pf-login__brand {
+  display: flex;
   gap: 14px;
-  align-items:flex-start;
+  align-items: flex-start;
   margin-bottom: 22px;
 }
 
-.pf-login__logo{
+.pf-login__logo {
   width: 46px;
   height: 46px;
   border-radius: 14px;
-  display:grid;
-  place-items:center;
+  display: grid;
+  place-items: center;
   background: linear-gradient(135deg, var(--pf-primary), var(--pf-primary-2));
-  box-shadow: 0 14px 35px rgba(11,60,145,0.20);
-  border: 1px solid rgba(11,60,145,0.18);
-  color:#fff;
+  box-shadow: 0 14px 35px rgba(11, 60, 145, 0.20);
+  border: 1px solid rgba(11, 60, 145, 0.18);
+  color: #fff;
 }
 
-.pf-login__logo span{
+.pf-login__logo span {
   font-weight: 900;
   letter-spacing: -0.02em;
 }
 
-.pf-login__title{
-  margin:0;
+.pf-login__title {
+  margin: 0;
   font-size: 26px;
   letter-spacing: -0.03em;
 }
 
-.pf-login__subtitle{
+.pf-login__subtitle {
   margin: 6px 0 0;
   color: var(--pf-muted);
   line-height: 1.5;
   font-size: 13.5px;
 }
 
-.pf-login__form{
-  margin-top: 18px;
-  display:flex;
-  flex-direction:column;
-  gap: 14px;
-}
-
-.pf-field{ display:flex; flex-direction:column; gap: 8px; }
-
-.pf-label{
-  font-size: 12.5px;
-  color: var(--pf-muted);
-  letter-spacing: .02em;
-}
-
-.pf-inputWrap{
-  border-radius: 14px;
-  border: 1px solid var(--pf-border);
-  background:#fff;
-  padding: 10px 12px;
-  box-shadow: 0 10px 30px rgba(2,6,23,0.06);
-  transition: .2s ease;
-}
-
-.pf-inputWrap:focus-within{
-  border-color: rgba(11,60,145,0.28);
-  box-shadow: 0 0 0 4px rgba(11,60,145,0.10), 0 10px 30px rgba(2,6,23,0.06);
-}
-
-.pf-inputWrap.is-error{
-  border-color: rgba(239, 68, 68, .35);
-  box-shadow: 0 0 0 4px rgba(239, 68, 68, .10), 0 10px 30px rgba(2,6,23,0.06);
-}
-
-.pf-input{
-  width:100%;
-  border:0;
-  outline:0;
-  background: transparent;
-  color: var(--pf-text);
-  font-size: 14px;
-}
-
-.pf-input::placeholder{
-  color: #94A3B8;
-}
-
-.pf-error{
-  margin:0;
-  font-size: 12px;
-  color: #B91C1C;
-}
-
-.pf-login__row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap: 12px;
-  margin-top: 2px;
-}
-
-.pf-check{
-  display:flex;
-  align-items:center;
-  gap: 10px;
-  color: var(--pf-muted);
-  font-size: 13px;
-  user-select:none;
-}
-
-.pf-check input{
-  width: 16px;
-  height: 16px;
-  accent-color: var(--pf-primary);
-}
-
-.pf-link{
-  color: var(--pf-primary-2);
-  text-decoration:none;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.pf-link:hover{
-  text-decoration: underline;
-}
-
-.pf-btn{
-  margin-top: 8px;
-  height: 44px;
-  border-radius: 12px;
-  border:none;
-  cursor:pointer;
-  font-weight: 800;
-  letter-spacing: .01em;
-  color: #fff;
-  background: linear-gradient(135deg, var(--pf-primary), var(--pf-primary-2));
-  box-shadow: 0 14px 35px rgba(11,60,145,0.25);
-  transition: transform .12s ease, filter .12s ease, box-shadow .12s ease;
-}
-
-.pf-btn:hover{
-  transform: translateY(-1px);
-  filter: brightness(1.03);
-}
-
-.pf-btn:disabled{
-  opacity:.65;
-  cursor:not-allowed;
-  transform:none;
-}
-
-.pf-login__foot{
-  margin: 10px 0 0;
-  color: var(--pf-muted);
-  font-size: 13px;
-}
-
 /* RIGHT PANEL */
-.pf-login__right{
+.pf-login__right {
   padding: 34px;
   border-left: 1px solid var(--pf-border);
-  background:
-    radial-gradient(520px 360px at 30% 20%, rgba(11,60,145,0.06), transparent 55%),
-    radial-gradient(520px 380px at 70% 65%, rgba(30,102,208,0.06), transparent 60%),
-    #FBFCFF;
+  background: radial-gradient(520px 360px at 30% 20%, rgba(11, 60, 145, 0.06), transparent 55%), radial-gradient(520px 380px at 70% 65%, rgba(30, 102, 208, 0.06), transparent 60%), #FBFCFF;
 }
 
-.pf-login__rightInner{
-  height:100%;
-  display:flex;
-  flex-direction:column;
+.pf-login__rightInner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
   gap: 14px;
 }
 
-.pf-badge{
+.pf-badge {
   width: fit-content;
   padding: 6px 10px;
   border-radius: 999px;
   font-size: 12px;
   color: #1F2A44;
   border: 1px solid var(--pf-border);
-  background:#fff;
-  box-shadow: 0 10px 30px rgba(2,6,23,0.06);
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.06);
 }
 
-.pf-rightTitle{
+.pf-rightTitle {
   margin: 4px 0 0;
   font-size: 22px;
   letter-spacing: -0.03em;
 }
 
-.pf-rightText{
+.pf-rightText {
   margin: 0;
   color: var(--pf-muted);
   line-height: 1.6;
   font-size: 13.5px;
 }
 
-.pf-stats{
+.pf-stats {
   margin-top: 10px;
-  display:grid;
+  display: grid;
   grid-template-columns: 1fr;
   gap: 10px;
 }
 
-.pf-stat{
+.pf-stat {
   padding: 14px 14px;
   border-radius: 16px;
   border: 1px solid var(--pf-border);
-  background:#fff;
-  box-shadow: 0 10px 30px rgba(2,6,23,0.06);
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.06);
 }
 
-.pf-statNum{
-  display:block;
+.pf-statNum {
+  display: block;
   font-size: 18px;
   font-weight: 900;
   letter-spacing: -0.02em;
   color: var(--pf-text);
 }
 
-.pf-statLabel{
-  display:block;
+.pf-statLabel {
+  display: block;
   margin-top: 2px;
   color: var(--pf-muted);
   font-size: 12.5px;
 }
 
-.pf-quote{
+.pf-quote {
   margin-top: auto;
   padding: 14px 14px;
   border-radius: 16px;
   border: 1px solid var(--pf-border);
-  background:#fff;
-  box-shadow: 0 10px 30px rgba(2,6,23,0.06);
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.06);
 }
 
-.pf-quote p{
-  margin:0;
+.pf-quote p {
+  margin: 0;
   color: var(--pf-text);
   font-size: 13px;
   line-height: 1.6;
 }
 
-.pf-quote span{
-  display:block;
+.pf-quote span {
+  display: block;
   margin-top: 8px;
   color: #94A3B8;
   font-size: 12px;
 }
 
 /* FOOTER */
-.pf-login__meta{
+.pf-login__meta {
   margin: 14px 0 0;
-  text-align:center;
+  text-align: center;
   color: #94A3B8;
   font-size: 12px;
 }
 
 /* RESPONSIVO */
-@media (max-width: 900px){
-  .pf-login__card{
+@media (max-width: 900px) {
+  .pf-login__card {
     grid-template-columns: 1fr;
   }
-  .pf-login__right{
+
+  .pf-login__right {
     border-left: 0;
     border-top: 1px solid var(--pf-border);
   }

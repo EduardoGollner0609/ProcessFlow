@@ -1,12 +1,18 @@
-import axios from "axios";
-import { BASE_URL } from "../utils/system";
+import { AxiosRequestConfig } from "axios";
 import { Paged } from "../models/generics";
 import { ProcessMinDTO } from "../models/process";
+import { requestBackend } from "../utils/request";
 
-export async function findAllByTitle(page: number, title: string, size = 8): Promise<Paged<ProcessMinDTO[]>> {
-    const response = await axios.get<Paged<ProcessMinDTO[]>>(`${BASE_URL}/processes`, {
+export async function findAllByTitle(
+    page: number,
+    title: string,
+    size = 8
+): Promise<Paged<ProcessMinDTO[]>> {
+    const config: AxiosRequestConfig = {
+        url: "/processes",
+        method: "GET",
         params: { page, title, size }
-    })
+    }
 
-    return response?.data;
+    return (await requestBackend(config)).data;
 }

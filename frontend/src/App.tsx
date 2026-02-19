@@ -5,14 +5,19 @@ import ClientsList from './routes/DashboardLayout/Clients'
 import ProcessList from './routes/DashboardLayout/Process'
 import AboutUs from './routes/DashboardLayout/AboutUs'
 import LoginPage from './routes/Login'
+import PrivateRoute from './components/PrivateRoute'
 
 function App() {
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/dashboard" element={
+          <PrivateRoute>
+            <DashboardLayout />
+          </PrivateRoute>
+        }>
           <Route path="home" element={<DashboardHome />} />
           <Route path="clients" element={<ClientsList />} />
           <Route path="processes" element={<ProcessList />} />

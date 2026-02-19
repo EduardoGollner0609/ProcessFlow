@@ -1,16 +1,18 @@
-import axios from "axios";
-import { BASE_URL } from "../utils/system";
+import { AxiosRequestConfig } from "axios";
 import { ClientMinDTO } from "../models/client";
 import { Paged } from "../models/generics";
+import { requestBackend } from "../utils/request";
 
 export async function findAllPaged(
     page: number,
     name: string,
     size = 8
 ): Promise<Paged<ClientMinDTO[]>> {
-    const response = await axios.get<Paged<ClientMinDTO[]>>(`${BASE_URL}/clients`, {
-        params: { page, size, name },
-    });
+    const config: AxiosRequestConfig = {
+        url: "/clients",
+        method: "GET",
+        params: { page, name, size }
+    }
 
-    return response?.data;
+    return (await requestBackend(config)).data;
 }

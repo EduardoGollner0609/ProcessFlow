@@ -1,6 +1,6 @@
 package com.gollner.processflow.controllers;
 
-import com.gollner.processflow.dto.ProcessMinDTO;
+import com.gollner.processflow.dto.processes.ProcessMinDTO;
 import com.gollner.processflow.services.ProcessService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

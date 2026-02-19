@@ -1,14 +1,17 @@
 package com.gollner.processflow.entities;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "tb_user")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -23,7 +26,7 @@ public class User {
     @Column(nullable = false, unique = true, length = 120)
     private String email;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false)
     private String password;
 
     @Column(nullable = false, length = 20)
@@ -38,13 +41,14 @@ public class User {
     public User() {
     }
 
-    public User(UUID id, String name, String document, String email, String phone) {
-        this.id = id;
+    public User(String name, String document, String email, String password, String phone) {
         this.name = name;
         this.document = document;
         this.email = email;
+        this.password = password;
         this.phone = phone;
     }
+
 
     public UUID getId() {
         return id;
@@ -86,12 +90,30 @@ public class User {
         this.phone = phone;
     }
 
-    public void addProcess(Process process) {
-        this.processes.add(process);
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of();
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public List<Process> getProcesses() {
         return processes;
+    }
+
+    public void addProcess(Process process) {
+        this.processes.add(process);
     }
 
     public List<Client> getClients() {
