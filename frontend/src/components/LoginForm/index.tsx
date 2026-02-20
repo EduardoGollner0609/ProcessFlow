@@ -1,8 +1,8 @@
-import "./styles.css";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import UseLogin from "../../hooks/auth/useLogin";
+import { Link } from "react-router-dom";
 
 const schema = z.object({
   email: z.string(),
@@ -27,11 +27,11 @@ export default function LoginForm() {
   const useLogin = UseLogin()
 
   function onSubmit(data: LoginFormData) {
-    useLogin.mutateAsync(data)
+    useLogin.mutate(data)
   }
 
   return (
-    <form className="pf-login__form" onSubmit={handleSubmit(onSubmit)}  noValidate>
+    <form className="pf-login__form" onSubmit={handleSubmit(onSubmit)} noValidate>
       <div className="pf-field">
         <label className="pf-label" htmlFor="email">
           E-mail
@@ -86,9 +86,9 @@ export default function LoginForm() {
 
       <p className="pf-login__foot">
         Não tem conta?{" "}
-        <a className="pf-link" href="#">
+        <Link className="pf-link" to="/register">
           Criar agora
-        </a>
+        </Link>
       </p>
     </form>
   );

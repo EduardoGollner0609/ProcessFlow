@@ -1,5 +1,4 @@
 import LoginForm from "../../components/LoginForm";
-import "./styles.css";
 
 export default function LoginPage() {
   return (

@@ -1,4 +1,4 @@
-import { AuthResponseDTO, LoginRequestDTO } from "../models/auth";
+import { AuthResponseDTO, LoginRequestDTO, RegisterRequestDTO } from "../models/auth";
 import * as tokenRepository from '../localstorage/token-repository';
 import { AxiosRequestConfig } from "axios";
 import { requestBackend } from "../utils/request";
@@ -12,6 +12,16 @@ export async function login(credentials: LoginRequestDTO): Promise<AuthResponseD
     }
 
     return (await requestBackend(config)).data;
+}
+
+export async function register(data: RegisterRequestDTO): Promise<AuthResponseDTO> {
+    const config: AxiosRequestConfig = {
+        url: "/auth/register",
+        method: "POST",
+        data: data
+    }
+
+    return (await requestBackend(config)).data
 }
 
 export function isTokenValid(): boolean {
