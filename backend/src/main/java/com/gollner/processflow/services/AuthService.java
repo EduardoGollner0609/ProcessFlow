@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UserService {
+public class AuthService {
 
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
-    public UserService(UserRepository repository, PasswordEncoder passwordEncoder, TokenService tokenService) {
+    public AuthService(UserRepository repository, PasswordEncoder passwordEncoder, TokenService tokenService) {
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.tokenService = tokenService;
@@ -62,7 +62,7 @@ public class UserService {
         return new UserMinDTO(getAuthenticatedUser());
     }
 
-    private User getAuthenticatedUser() {
+    public User getAuthenticatedUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !(auth.getPrincipal() instanceof User user)) {
             throw new RuntimeException("Usuário não autenticado");

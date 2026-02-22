@@ -1,4 +1,4 @@
-package com.gollner.processflow.dto.clients;
+package com.gollner.processflow.dto.clients.response;
 
 import com.gollner.processflow.entities.Client;
 

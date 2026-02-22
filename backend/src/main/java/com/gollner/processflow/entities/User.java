@@ -32,7 +32,7 @@ public class User implements UserDetails {
     @Column(nullable = false, length = 20)
     private String phone;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "responsibleUser")
     private List<Client> clients = new ArrayList<>();
 
     @OneToMany(mappedBy = "responsibleUser")

@@ -33,8 +33,9 @@ public class Process {
     private Instant dueDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "responsible_id")
     private User responsibleUser;
+
     @ManyToOne(optional = false)
     @JoinColumn(name = "client_id")
     private Client client;
@@ -56,12 +57,11 @@ public class Process {
     public Process() {
     }
 
-    public Process(UUID id, String title, String description, ProcessStatus status, Instant createMoment, Instant dueDate, User responsibleUser, Client client) {
-        this.id = id;
+    public Process(String title, String description, ProcessStatus status, Instant dueDate, User responsibleUser, Client client) {
         this.title = title;
         this.description = description;
         this.status = status;
-        this.createMoment = createMoment;
+        this.createMoment = Instant.now();
         this.dueDate = dueDate;
         this.responsibleUser = responsibleUser;
         this.client = client;

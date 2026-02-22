@@ -1,6 +1,6 @@
-package com.gollner.processflow.dto.processes;
+package com.gollner.processflow.dto.processes.response;
 
-import com.gollner.processflow.dto.clients.ClientMinDTO;
+import com.gollner.processflow.dto.clients.response.ClientMinDTO;
 import com.gollner.processflow.entities.Process;
 import com.gollner.processflow.enums.ProcessStatus;
 

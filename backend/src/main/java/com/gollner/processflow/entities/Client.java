@@ -26,19 +26,19 @@ public class Client {
     private List<Process> processes = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "responsible_id")
+    private User responsibleUser;
 
     public Client() {
     }
 
-    public Client(UUID id, String name, String document, String email, String phone, User user) {
+    public Client(String name, String document, String email, String phone, User responsibleUser) {
         this.id = id;
         this.name = name;
         this.document = document;
         this.email = email;
         this.phone = phone;
-        this.user = user;
+        this.responsibleUser = responsibleUser;
     }
 
     public UUID getId() {
@@ -89,12 +89,12 @@ public class Client {
         this.processes.add(process);
     }
 
-    public User getUser() {
-        return user;
+    public User getResponsibleUser() {
+        return responsibleUser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setResponsibleUser(User responsibleUser) {
+        this.responsibleUser = responsibleUser;
     }
 }
 

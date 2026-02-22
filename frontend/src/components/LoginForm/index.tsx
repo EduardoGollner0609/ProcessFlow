@@ -3,6 +3,9 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import UseLogin from "../../hooks/auth/useLogin";
 import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { backendErrorInForm } from "../../utils/request";
+import { ValidationError } from "../../models/exceptions";
 
 const schema = z.object({
   email: z.string(),
@@ -15,7 +18,8 @@ export default function LoginForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    setError,
+    formState: { errors },
   } = useForm<LoginFormData>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -26,8 +30,8 @@ export default function LoginForm() {
 
   const useLogin = UseLogin()
 
-  function onSubmit(data: LoginFormData) {
-    useLogin.mutate(data)
+  function onSubmit(credentials: LoginFormData) {
+    useLogin.mutate({ credentials, setError });
   }
 
   return (
@@ -80,8 +84,8 @@ export default function LoginForm() {
         </a>
       </div>
 
-      <button className="pf-btn" type="submit" disabled={isSubmitting}>
-        {isSubmitting ? "Entrando..." : "Entrar"}
+      <button className="pf-btn" type="submit" disabled={useLogin.isPending}>
+        {useLogin.isPending ? "Entrando..." : "Entrar"}
       </button>
 
       <p className="pf-login__foot">
