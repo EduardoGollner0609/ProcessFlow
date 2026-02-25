@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { ProcessMinDTO } from "../../models/process";
 import PaginationControl from "../PaginationControl";
-import "./styles.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 /** ===== Tipos corretos ===== */

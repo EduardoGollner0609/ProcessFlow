@@ -1,4 +1,4 @@
-import { Axios, AxiosRequestConfig } from "axios";
+import {  AxiosRequestConfig } from "axios";
 import { Paged } from "../models/generics";
 import { ProcessDTO, ProcessMinDTO, ProcessRequestDTO } from "../models/process";
 import { requestBackend } from "../utils/request";

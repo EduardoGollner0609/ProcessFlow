@@ -1,4 +1,3 @@
-import './styles.css'
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 interface PaginationControlProps {

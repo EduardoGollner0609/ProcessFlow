@@ -1,6 +1,5 @@
 import { FaPlus, FaSearch } from 'react-icons/fa'
 import ClientsTable from '../../../components/ClientsTable'
-import './styles.css'
 import { useState } from 'react'
 import useClients from '../../../hooks/clients/use-clients'
 import UseDeleteClient from '../../../hooks/clients/use-delete-client'

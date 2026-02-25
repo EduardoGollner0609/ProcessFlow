@@ -1,5 +1,4 @@
 import { FaBuilding, FaClock, FaEdit, FaEye, FaTrash, FaUser } from 'react-icons/fa';
-import './styles.css'
 
 interface Process {
     id: string;

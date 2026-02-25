@@ -1,4 +1,3 @@
-import "./styles.css";
 import { useMemo, useState } from "react";
 import {
   FaArrowLeft,
@@ -15,7 +14,6 @@ import {
   FaUserTie,
 } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
-import UseProcesss from "../../../hooks/processes/use-process";
 import UseProcessById from "../../../hooks/processes/use-process";
 
 /** ===== Tipos (ajuste conforme seu backend) ===== */

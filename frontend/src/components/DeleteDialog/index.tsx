@@ -1,4 +1,3 @@
-import "./styles.css";
 
 type Props = {
     open: boolean;

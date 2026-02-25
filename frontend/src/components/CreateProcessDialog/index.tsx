@@ -1,4 +1,3 @@
-import "./styles.css";
 import { z } from "zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

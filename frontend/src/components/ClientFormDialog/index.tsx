@@ -2,7 +2,6 @@ import { z } from "zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import "./styles.css";
 import UseCreateClient from "../../hooks/clients/use-create-client";
 import UseUpdateClient from "../../hooks/clients/use-update-client";
 

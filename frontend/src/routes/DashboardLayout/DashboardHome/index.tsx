@@ -1,4 +1,3 @@
-import "./styles.css";
 import { FaTasks, FaUsers, FaCheckCircle, FaClock } from "react-icons/fa";
 
 export default function DashboardHome() {

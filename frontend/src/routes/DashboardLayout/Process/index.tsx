@@ -1,6 +1,5 @@
 import { FaFilter, FaPlus, FaSearch } from "react-icons/fa";
 import ProcessesTable from "../../../components/ProcessesTable";
-import "./styles.css";
 import useProcess from "../../../hooks/processes/use-processes";
 import { useState } from "react";
 import { ProcessMinDTO } from "../../../models/process";
