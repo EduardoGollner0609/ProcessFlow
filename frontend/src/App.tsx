@@ -8,6 +8,7 @@ import LoginPage from './routes/Login'
 import PrivateRoute from './components/PrivateRoute'
 import RegisterPage from './routes/DashboardLayout/Register/index'
 import { Toaster } from 'react-hot-toast'
+import ProcessDetailsPage from './routes/DashboardLayout/ProcessDetails'
 
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
           <Route path="home" element={<DashboardHome />} />
           <Route path="clients" element={<ClientsList />} />
           <Route path="processes" element={<ProcessList />} />
+          <Route path="process/:processId" element={<ProcessDetailsPage />} />
         </Route>
 
         <Route path="about-us" element={<AboutUs />} />

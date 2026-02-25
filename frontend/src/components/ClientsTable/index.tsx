@@ -10,9 +10,11 @@ interface ClientsTableProps {
     firstPage: boolean
     nextPageFunction: () => void
     prevPageFunction: () => void
+    openEdit: (client: ClientMinDTO) => void,
+    openDelete: (id: string) => void
 }
 
-export default function ClientsTable({ clients, pageNumber, lastPage, firstPage, nextPageFunction, prevPageFunction }: ClientsTableProps) {
+export default function ClientsTable({ clients, pageNumber, lastPage, firstPage, nextPageFunction, prevPageFunction, openEdit, openDelete}: ClientsTableProps) {
     return (
         <div className="clients-table-container">
             <table className="clients-table">
@@ -44,8 +46,8 @@ export default function ClientsTable({ clients, pageNumber, lastPage, firstPage,
                                 <td>{client.phone}</td>
                                 <td className="actions">
                                     <button className="action-btn view"><FaEye /> Ver</button>
-                                    <button className="action-btn edit"><FaEdit /> Editar</button>
-                                    <button className="action-btn remove"><FaTrash /> Remover</button>
+                                    <button className="action-btn edit" onClick={() => openEdit(client)}><FaEdit /> Editar</button>
+                                    <button className="action-btn remove" onClick={() => openDelete(client.id)}><FaTrash /> Remover</button>
                                 </td>
                             </tr>
                         ))

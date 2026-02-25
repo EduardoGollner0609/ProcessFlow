@@ -5,6 +5,7 @@ import com.gollner.processflow.dto.auth.request.RegisterRequestDTO;
 import com.gollner.processflow.dto.auth.response.AuthResponseDTO;
 import com.gollner.processflow.dto.users.UserMinDTO;
 import com.gollner.processflow.entities.User;
+import com.gollner.processflow.entities.abstractions.OwnedByResponsibleUser;
 import com.gollner.processflow.infra.security.security.TokenService;
 import com.gollner.processflow.repositories.UserRepository;
 import org.springframework.security.core.Authentication;
@@ -60,6 +61,14 @@ public class AuthService {
     @Transactional(readOnly = true)
     public UserMinDTO getMe() {
         return new UserMinDTO(getAuthenticatedUser());
+    }
+
+    public void verifyResponsible(OwnedByResponsibleUser ownedByResponsibleUser) {
+        User responsibleUser = getAuthenticatedUser();
+
+        if (!responsibleUser.getId().equals(ownedByResponsibleUser.getResponsibleUser().getId())) {
+            throw new RuntimeException("Esse cliente pertence a outro usuário");
+        }
     }
 
     public User getAuthenticatedUser() {

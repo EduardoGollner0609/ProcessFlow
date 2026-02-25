@@ -3,11 +3,17 @@ import ClientsTable from '../../../components/ClientsTable'
 import './styles.css'
 import { useState } from 'react'
 import useClients from '../../../hooks/clients/use-clients'
-import CreateClientDialog from '../../../components/CreateClientDialog'
+import UseDeleteClient from '../../../hooks/clients/use-delete-client'
+import ClientFormDialog from '../../../components/ClientFormDialog'
+import { ClientMinDTO } from '../../../models/client'
+import DeleteDialog from '../../../components/DeleteDialog'
 
 export default function ClientsList() {
 
-    const [showCreateClientDialog, setShowCreateClientDialog] = useState<boolean>(false)
+    const [clientDialogOpen, setClientDialogOpen] = useState(false);
+    const [editingClient, setEditingClient] = useState<ClientMinDTO | null>(null);
+    const [deleteId, setDeleteId] = useState<string | null>(null);
+
 
     const [queryParams, setQueryParams] = useState<{ page: number, name: string }>({
         page: 0,
@@ -16,8 +22,27 @@ export default function ClientsList() {
 
     const { data: clientsPaged, isLoading, isError } = useClients(queryParams.page, queryParams.name);
 
+    const useDeleteClient = UseDeleteClient();
+
+
     function handleSearch(searchText: string) {
         setQueryParams({ ...queryParams, page: 0, name: searchText });
+    }
+
+    function openCreate() {
+        setEditingClient(null);
+        setClientDialogOpen(true);
+    }
+
+    function openEdit(client: ClientMinDTO) {
+        setEditingClient(client);
+        setClientDialogOpen(true);
+    }
+
+    async function handleDelete() {
+        if (!deleteId) return;
+        await useDeleteClient.mutateAsync(deleteId);
+        setDeleteId(null);
     }
 
     return (
@@ -42,7 +67,7 @@ export default function ClientsList() {
 
                     <button
                         className="pfp-btn pfp-btn--primary"
-                        onClick={() => setShowCreateClientDialog(true)}
+                        onClick={() => openCreate()}
                     >
                         <FaPlus /> Novo Cliente
                     </button>
@@ -60,14 +85,29 @@ export default function ClientsList() {
                 prevPageFunction={() =>
                     setQueryParams({ ...queryParams, page: queryParams.page - 1 })
                 }
+                openEdit={openEdit}
+                openDelete={setDeleteId}
             />
 
-            {showCreateClientDialog && (
-                <CreateClientDialog
-                    open={showCreateClientDialog}
-                    onClose={() => setShowCreateClientDialog(false)}
+            {clientDialogOpen && (
+                <ClientFormDialog
+                    open={clientDialogOpen}
+                    onClose={() => setClientDialogOpen(false)}
+                    client={editingClient}
                 />
             )}
+            {
+                deleteId &&
+                <DeleteDialog
+                    open={!!deleteId}
+                    onClose={() => setDeleteId(null)}
+                    title="Confirmar exclusão"
+                    description='Tem certeza que deseja excluir este usuário? Essa ação não poderá ser desfeita.'
+                    onConfirm={handleDelete}
+                    loading={useDeleteClient.isPending}
+                />
+            }
+
         </section>
     )
 }

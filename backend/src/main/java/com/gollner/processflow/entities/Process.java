@@ -1,16 +1,15 @@
 package com.gollner.processflow.entities;
 
+import com.gollner.processflow.entities.abstractions.OwnedByResponsibleUser;
 import com.gollner.processflow.enums.ProcessStatus;
 import jakarta.persistence.*;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_process")
-public class Process {
+public class Process implements OwnedByResponsibleUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -32,7 +31,7 @@ public class Process {
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant dueDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "responsible_id")
     private User responsibleUser;
 
@@ -52,7 +51,7 @@ public class Process {
             joinColumns = @JoinColumn(name = "process_id")
     )
     @Column(name = "file_url")
-    private List<String> filesUrl = new ArrayList<>();
+    private Set<String> filesUrl = new LinkedHashSet<>();
 
     public Process() {
     }
@@ -147,7 +146,7 @@ public class Process {
         this.comments.add(comment);
     }
 
-    public List<String> getFilesUrl() {
+    public Set<String> getFilesUrl() {
         return filesUrl;
     }
 

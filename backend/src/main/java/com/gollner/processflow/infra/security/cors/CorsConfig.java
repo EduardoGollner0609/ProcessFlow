@@ -1,4 +1,4 @@
-package com.gollner.processflow.infra.security.cor;
+package com.gollner.processflow.infra.security.cors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;

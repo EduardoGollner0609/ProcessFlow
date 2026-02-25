@@ -16,7 +16,7 @@ public record RegisterRequestDTO(@NotBlank(message = "Campo requerido")
                                  @Email(message = "Email inválido")
                                  String email,
                                  @NotBlank(message = "Campo requerido")
-                                 @Size(min = 8, max = 18, message = "Senha deve ter entre 6 e 18 caracteres")
+                                 @Size(min = 6, max = 18, message = "Senha deve ter entre 6 e 18 caracteres")
                                  String password,
                                  @NotBlank(message = "Campo requerido")
                                  @Pattern(regexp = "^\\d+$", message = "Telefone deve conter apenas números")

@@ -10,6 +10,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 public class ClientService {
 
@@ -23,7 +25,9 @@ public class ClientService {
 
     @Transactional(readOnly = true)
     public Page<ClientMinDTO> findAllByName(Pageable pageable, String name) {
-        Page<Client> clients = repository.findAllByName(pageable, name);
+        User responsibleUser = authService.getAuthenticatedUser();
+
+        Page<Client> clients = repository.findAllByName(pageable, name, responsibleUser.getId());
         return clients.map(ClientMinDTO::new);
     }
 
@@ -39,5 +43,27 @@ public class ClientService {
         );
 
         return new ClientMinDTO(repository.save(client));
+    }
+
+    public void update(UUID id, ClientRequestDTO clientRequestDTO) {
+        Client client = repository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+        authService.verifyResponsible(client);
+
+        client.setDocument(clientRequestDTO.document());
+        client.setEmail(clientRequestDTO.email());
+        client.setName(clientRequestDTO.name());
+        client.setPhone(clientRequestDTO.phone());
+
+        repository.save(client);
+    }
+
+    @Transactional
+    public void delete(UUID id) {
+        Client client = repository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não encontrado"));
+
+        authService.verifyResponsible(client);
+
+        repository.deleteById(id);
     }
 }

@@ -1,12 +1,12 @@
 import "./styles.css";
-import { useMemo, useState } from "react";
-
-export enum ProcessStatus {
-  EM_ESPERA = "EM_ESPERA",
-  EM_ANDAMENTO = "EM_ANDAMENTO",
-  CANCELADO = "CANCELADO",
-  CONCLUIDO = "CONCLUIDO",
-}
+import { z } from "zod";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import useClients from "../../hooks/clients/use-clients";
+import UseCreateProcess from "../../hooks/processes/use-create-process";
+import { ProcessMinDTO, ProcessRequestDTO } from "../../models/process";
+import UseUpdateProcess from "../../hooks/processes/use-update-process";
 
 export type ClientMinDTO = {
   id: string;
@@ -16,59 +16,72 @@ export type ClientMinDTO = {
   phone: string;
 };
 
-export type UserMinDTO = {
-  id: string;
-  name: string;
-  email: string;
-};
-
-export type CreateProcessPayload = {
-  title: string;
-  description: string;
-  status: ProcessStatus;
-  dueDate: string; // ISO string
-  clientId: string;
-  responsibleUserId?: string | null;
-};
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-
-  clients: ClientMinDTO[];
-  users?: UserMinDTO[];
-
-  /** dispara no submit com payload pronto */
-  onSubmit: (payload: CreateProcessPayload) => void | Promise<void>;
-
-  /** opcional: valores iniciais */
-  defaultStatus?: ProcessStatus;
+  process?: ProcessMinDTO | null; // 👈 se vier, é edição
 };
 
-export default function CreateProcessDialog({
-  open,
-  onOpenChange,
-  clients,
-  users = [],
-  onSubmit,
-  defaultStatus = ProcessStatus.EM_ESPERA,
-}: Props) {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [status, setStatus] = useState<ProcessStatus>(defaultStatus);
-  const [dueDate, setDueDate] = useState(""); // yyyy-mm-dd
-  const [clientId, setClientId] = useState("");
-  const [responsibleUserId, setResponsibleUserId] = useState<string>("");
+const schema = z.object({
+  title: z.string().trim().min(1, "Título é obrigatório").max(120, "Título deve ter no máximo 120 caracteres"),
+  description: z.string().trim().min(1, "Descrição é obrigatória").max(2000, "Descrição muito longa"),
+  dueDate: z.string().min(1, "Prazo é obrigatório").regex(/^\d{4}-\d{2}-\d{2}$/, "Data inválida"),
+  clientId: z.string(),
+});
 
-  const canSubmit = useMemo(() => {
-    return (
-      title.trim().length > 0 &&
-      description.trim().length > 0 &&
-      !!status &&
-      !!dueDate &&
-      !!clientId
-    );
-  }, [title, description, status, dueDate, clientId]);
+type FormData = z.infer<typeof schema>;
+
+function isoToInputDate(iso: string) {
+  if (!iso) return "";
+  return iso.slice(0, 10);
+}
+
+export default function ProcessFormDialog({ open, onOpenChange, process }: Props) {
+  const isEdit = !!process?.id;
+
+  const createProcess = UseCreateProcess();
+  const updateProcess = UseUpdateProcess();
+
+  const loading = createProcess.isPending || updateProcess.isPending;
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+    setError,
+    setValue,
+    watch,
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      title: "",
+      description: "",
+      dueDate: "",
+      clientId: "",
+    },
+  });
+
+  // ✅ ao abrir: edit preenche, create limpa
+  useEffect(() => {
+    if (!open) return;
+
+    if (process) {
+      reset({
+        title: process.title ?? "",
+        description: process.description ?? "",
+        dueDate: isoToInputDate(process.dueDate),
+        clientId: process.client.id ?? "",
+      });
+    } else {
+      reset({
+        title: "",
+        description: "",
+        dueDate: "",
+        clientId: "",
+      });
+    }
+  }, [open, process, reset]);
 
   if (!open) return null;
 
@@ -76,35 +89,43 @@ export default function CreateProcessDialog({
     onOpenChange(false);
   }
 
-  function resetForm() {
-    setTitle("");
-    setDescription("");
-    setStatus(defaultStatus);
-    setDueDate("");
-    setClientId("");
-    setResponsibleUserId("");
+  // client picker
+  const [page, setPage] = useState(0);
+  const [search, setSearch] = useState("");
+
+  const { data, isFetching, isLoading } = useClients(page, search);
+
+  const clients = data?.content ?? [];
+  const hasNext = data ? !data.last : false;
+
+  async function onSubmit(data: FormData) {
+    try {
+      const dueDateISO = new Date(`${data.dueDate}T00:00:00.000Z`).toISOString();
+
+      const payload: ProcessRequestDTO = {
+        title: data.title.trim(),
+        description: data.description.trim(),
+        dueDate: dueDateISO,
+        clientId: data.clientId,
+      };
+
+      if (isEdit && process?.id) {
+        await updateProcess.mutateAsync({ id: process.id, process: payload });
+      } else {
+        await createProcess.mutateAsync(payload);
+      }
+
+      reset();
+      close();
+    } catch {
+      setError("root", {
+        type: "server",
+        message: isEdit ? "Não foi possível atualizar o processo." : "Não foi possível criar o processo.",
+      });
+    }
   }
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!canSubmit) return;
-
-    // date input vem yyyy-mm-dd. Transformando em ISO (UTC) no início do dia.
-    const dueDateISO = new Date(`${dueDate}T00:00:00.000Z`).toISOString();
-
-    const payload: CreateProcessPayload = {
-      title: title.trim(),
-      description: description.trim(),
-      status,
-      dueDate: dueDateISO,
-      clientId,
-      responsibleUserId: responsibleUserId ? responsibleUserId : null,
-    };
-
-    await onSubmit(payload);
-    resetForm();
-    close();
-  }
+  const selectedClientId = watch("clientId");
 
   return (
     <>
@@ -114,16 +135,18 @@ export default function CreateProcessDialog({
         className="pfDialog"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="pfCreateTitle"
+        aria-labelledby="pfProcessTitle"
         onClick={(e) => e.stopPropagation()}
       >
         <header className="pfDialog__header">
           <div>
-            <h2 id="pfCreateTitle" className="pfDialog__title">
-              Novo Processo
+            <h2 id="pfProcessTitle" className="pfDialog__title">
+              {isEdit ? "Editar Processo" : "Novo Processo"}
             </h2>
             <p className="pfDialog__subtitle">
-              Preencha os dados para cadastrar um processo no ProcessFlow.
+              {isEdit
+                ? "Atualize os dados do processo no ProcessFlow."
+                : "Preencha os dados para cadastrar um processo no ProcessFlow."}
             </p>
           </div>
 
@@ -134,131 +157,153 @@ export default function CreateProcessDialog({
 
         <div className="pfDivider" />
 
-        <form className="pfForm" onSubmit={handleSubmit}>
+        <form className="pfForm" onSubmit={handleSubmit(onSubmit)} noValidate>
+          {errors.root?.message && <p className="pfError">{errors.root.message}</p>}
+
           <div className="pfGrid">
             <div className="pfField pfField--full">
-              <label className="pfLabel" htmlFor="title">
-                Título *
-              </label>
+              <label className="pfLabel" htmlFor="title">Título *</label>
               <input
                 id="title"
-                name="title"
-                className="pfInput"
+                className={`pfInput ${errors.title ? "is-error" : ""}`}
                 type="text"
                 maxLength={120}
                 placeholder="Ex: Regularização de Documentação"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                required
+                {...register("title")}
+                aria-invalid={!!errors.title}
               />
-              <small className="pfHelp">Curto e específico (até 120 caracteres).</small>
+              {errors.title ? (
+                <small className="pfError">{errors.title.message}</small>
+              ) : (
+                <small className="pfHelp">Curto e específico (até 120 caracteres).</small>
+              )}
             </div>
 
             <div className="pfField pfField--full">
-              <label className="pfLabel" htmlFor="description">
-                Descrição *
-              </label>
+              <label className="pfLabel" htmlFor="description">Descrição *</label>
               <textarea
                 id="description"
-                name="description"
-                className="pfTextarea"
+                className={`pfTextarea ${errors.description ? "is-error" : ""}`}
                 rows={4}
                 placeholder="Descreva o que precisa ser feito, contexto e próximos passos..."
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
+                {...register("description")}
+                aria-invalid={!!errors.description}
               />
+              {errors.description && <small className="pfError">{errors.description.message}</small>}
             </div>
 
             <div className="pfField">
-              <label className="pfLabel" htmlFor="status">
-                Status *
-              </label>
-              <select
-                id="status"
-                name="status"
-                className="pfSelect"
-                value={status}
-                onChange={(e) => setStatus(e.target.value as ProcessStatus)}
-                required
-              >
-                <option value={ProcessStatus.EM_ESPERA}>Em espera</option>
-                <option value={ProcessStatus.EM_ANDAMENTO}>Em andamento</option>
-                <option value={ProcessStatus.CANCELADO}>Cancelado</option>
-                <option value={ProcessStatus.CONCLUIDO}>Concluído</option>
-              </select>
-            </div>
-
-            <div className="pfField">
-              <label className="pfLabel" htmlFor="dueDate">
-                Prazo *
-              </label>
+              <label className="pfLabel" htmlFor="dueDate">Prazo *</label>
               <input
                 id="dueDate"
-                name="dueDate"
-                className="pfInput"
+                className={`pfInput ${errors.dueDate ? "is-error" : ""}`}
                 type="date"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-                required
+                {...register("dueDate")}
+                aria-invalid={!!errors.dueDate}
               />
-              <small className="pfHelp">Defina a data limite do processo.</small>
+              {errors.dueDate ? (
+                <small className="pfError">{errors.dueDate.message}</small>
+              ) : (
+                <small className="pfHelp">Defina a data limite do processo.</small>
+              )}
             </div>
 
             <div className="pfField pfField--full">
-              <label className="pfLabel" htmlFor="clientId">
-                Cliente *
-              </label>
-              <select
-                id="clientId"
-                name="clientId"
-                className="pfSelect"
-                value={clientId}
-                onChange={(e) => setClientId(e.target.value)}
-                required
-              >
-                <option value="" disabled>
-                  Selecione um cliente
-                </option>
-                {clients.map((c) => (
-                  <option key={c.id} value={c.id}>
-                    {c.name} • {c.document}
-                  </option>
-                ))}
-              </select>
-              <small className="pfHelp">O processo sempre precisa estar vinculado a um cliente.</small>
-            </div>
+              <label className="pfLabel">Cliente *</label>
 
-            <div className="pfField pfField--full">
-              <label className="pfLabel" htmlFor="responsibleUserId">
-                Responsável (opcional)
-              </label>
-              <select
-                id="responsibleUserId"
-                name="responsibleUserId"
-                className="pfSelect"
-                value={responsibleUserId}
-                onChange={(e) => setResponsibleUserId(e.target.value)}
+              {/* opcional: bloquear troca de cliente no edit */}
+              <input
+                type="text"
+                className="pfInput"
+                placeholder={isEdit ? "Busca desabilitada na edição" : "Buscar cliente pelo nome..."}
+                value={search}
+                onChange={(e) => {
+                  if (isEdit) return;
+                  setSearch(e.target.value);
+                  setPage(0);
+                }}
+                disabled={isEdit}
+              />
+
+              <div
+                style={{
+                  marginTop: 8,
+                  border: "1px solid #e5e7eb",
+                  borderRadius: 10,
+                  maxHeight: 220,
+                  overflow: "auto",
+                  opacity: isEdit ? 0.75 : 1,
+                  pointerEvents: isEdit ? "none" : "auto",
+                }}
               >
-                <option value="">Nenhum</option>
-                {users.map((u) => (
-                  <option key={u.id} value={u.id}>
-                    {u.name} ({u.email})
-                  </option>
-                ))}
-              </select>
+                {isLoading && <div style={{ padding: 12 }}>Carregando...</div>}
+
+                {!isLoading && clients.length === 0 && (
+                  <div style={{ padding: 12, color: "#6b7280" }}>Nenhum cliente encontrado.</div>
+                )}
+
+                {clients.map((c) => {
+                  const selected = c.id === selectedClientId;
+
+                  return (
+                    <button
+                      key={c.id}
+                      type="button"
+                      onClick={() => setValue("clientId", c.id)}
+                      style={{
+                        width: "100%",
+                        textAlign: "left",
+                        padding: "10px 12px",
+                        border: "none",
+                        background: selected ? "#eef2ff" : "white",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <div style={{ fontWeight: 600 }}>{c.name}</div>
+                      <div style={{ fontSize: 12, color: "#6b7280" }}>{c.document}</div>
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Paginação */}
+              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8 }}>
+                <button
+                  type="button"
+                  className="pfBtn pfBtn--ghost"
+                  onClick={() => setPage((p) => Math.max(0, p - 1))}
+                  disabled={page === 0 || isFetching || isEdit}
+                >
+                  Anterior
+                </button>
+
+                <button
+                  type="button"
+                  className="pfBtn pfBtn--ghost"
+                  onClick={() => setPage((p) => p + 1)}
+                  disabled={!hasNext || isFetching || isEdit}
+                >
+                  {isFetching ? "..." : "Próxima"}
+                </button>
+              </div>
+
+              {errors.clientId ? (
+                <small className="pfError">{errors.clientId.message}</small>
+              ) : (
+                <small className="pfHelp">Busque e selecione o cliente.</small>
+              )}
             </div>
           </div>
 
           <div className="pfDivider pfDivider--soft" />
 
           <footer className="pfActions">
-            <button className="pfBtn pfBtn--ghost" type="button" onClick={close}>
+            <button className="pfBtn pfBtn--ghost" type="button" onClick={close} disabled={loading}>
               Cancelar
             </button>
 
-            <button className="pfBtn pfBtn--primary" type="submit" disabled={!canSubmit}>
-              Criar Processo
+            <button className="pfBtn pfBtn--primary" type="submit" disabled={loading}>
+              {loading ? "Salvando..." : isEdit ? "Salvar Alterações" : "Criar Processo"}
             </button>
           </footer>
         </form>

@@ -1,5 +1,6 @@
 package com.gollner.processflow.entities;
 
+import com.gollner.processflow.entities.abstractions.OwnedByResponsibleUser;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -8,7 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "tb_client")
-public class Client {
+public class Client implements OwnedByResponsibleUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

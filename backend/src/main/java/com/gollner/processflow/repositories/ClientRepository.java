@@ -10,6 +10,6 @@ import java.util.UUID;
 
 public interface ClientRepository extends JpaRepository<Client, UUID> {
 
-    @Query("SELECT obj FROM Client obj WHERE UPPER(obj.name) LIKE UPPER(CONCAT('%', :name, '%'))")
-    Page<Client> findAllByName(Pageable pageable, String name);
+    @Query("SELECT obj FROM Client obj WHERE UPPER(obj.name) LIKE UPPER(CONCAT('%', :name, '%')) AND obj.responsibleUser.id = :responsibleId")
+    Page<Client> findAllByName(Pageable pageable, String name, UUID responsibleId);
 }

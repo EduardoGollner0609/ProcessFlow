@@ -1,7 +1,8 @@
+import { useNavigate } from "react-router-dom";
 import { ProcessMinDTO } from "../../models/process";
 import PaginationControl from "../PaginationControl";
 import "./styles.css";
-import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 /** ===== Tipos corretos ===== */
 export enum ProcessStatus {
@@ -19,24 +20,24 @@ interface ProcessesTableProps {
   firstPage: boolean
   nextPageFunction: () => void
   prevPageFunction: () => void
-  onView?: (processId: string) => void;
-  onEdit?: (processId: string) => void;
-  onDelete?: (processId: string) => void;
+  openEdit?: (process: ProcessMinDTO) => void;
+  openDelete?: (processId: string) => void;
   onCreate?: () => void;
   onFilters?: () => void;
 }
 
 export default function ProcessesTable({
   processes,
-  onView,
-  onEdit,
-  onDelete,
+  openEdit,
+  openDelete,
   pageNumber,
   lastPage,
   firstPage,
   nextPageFunction,
   prevPageFunction
 }: ProcessesTableProps) {
+  const navigate = useNavigate();
+
   return (
     <div className="pfp-card">
       <div className="pfp-tableWrap">
@@ -61,7 +62,7 @@ export default function ProcessesTable({
               </tr>
             ) : (
               processes.map((p) => (
-                <tr key={p.id}>
+                <tr key={p.id} onClick={() => navigate(`/dashboard/process/${p.id}`)} className="processes-link">
                   <td>
                     <div className="pfp-proc">
                       <div className="pfp-proc__top">
@@ -118,17 +119,11 @@ export default function ProcessesTable({
                       <button
                         className="pfp-iconBtn"
                         type="button"
-                        title="Visualizar"
-                        onClick={() => onView?.(p.id)}
-                      >
-                        <FaEye />
-                      </button>
-
-                      <button
-                        className="pfp-iconBtn"
-                        type="button"
                         title="Editar"
-                        onClick={() => onEdit?.(p.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openEdit?.(p);
+                        }}
                       >
                         <FaEdit />
                       </button>
@@ -137,7 +132,10 @@ export default function ProcessesTable({
                         className="pfp-iconBtn pfp-iconBtn--danger"
                         type="button"
                         title="Excluir"
-                        onClick={() => onDelete?.(p.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openDelete?.(p.id);
+                        }}
                       >
                         <FaTrash />
                       </button>

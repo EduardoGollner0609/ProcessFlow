@@ -5,3 +5,10 @@ export type ClientMinDTO = {
     email: string,
     phone: string
 }
+
+export type ClientRequestDTO = {
+    name: string,
+    document: string,
+    email: string,
+    phone: string
+}

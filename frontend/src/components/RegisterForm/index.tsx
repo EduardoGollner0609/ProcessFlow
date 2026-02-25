@@ -63,7 +63,6 @@ export default function RegisterForm() {
             phone: formData.phone.replace(/\D/g, ""),
             email: formData.email.trim(),
             password: formData.password,
-            // confirmPassword NÃO vai pro back
         };
 
         useRegister.mutate({ registerData, setError });

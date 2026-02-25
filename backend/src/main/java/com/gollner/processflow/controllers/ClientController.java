@@ -2,6 +2,7 @@ package com.gollner.processflow.controllers;
 
 import com.gollner.processflow.dto.clients.request.ClientRequestDTO;
 import com.gollner.processflow.dto.clients.response.ClientMinDTO;
+import com.gollner.processflow.entities.Client;
 import com.gollner.processflow.services.ClientService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/clients")
@@ -39,4 +41,17 @@ public class ClientController {
 
         return ResponseEntity.created(uri).body(client);
     }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> update(@PathVariable UUID id, @RequestBody ClientRequestDTO clientRequestDTO) {
+        service.update(id, clientRequestDTO);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<ClientMinDTO> delete(@PathVariable UUID id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
