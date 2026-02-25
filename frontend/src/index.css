@@ -862,31 +862,70 @@ main {
   border-radius: 18px;
   box-shadow: var(--pf-shadow);
   overflow: hidden;
+  transition: transform .15s ease, box-shadow .2s ease, border-color .2s ease;
 }
 
+.pfd-panel:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--pf-shadow), 0 10px 30px rgba(15, 23, 42, 0.06);
+  border-color: rgba(11, 60, 145, 0.18);
+}
+
+/* Header */
 .pfd-panelHead {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 12px 14px;
-  background: #fbfcff;
+  padding: 14px 16px;
+  background: linear-gradient(180deg, #fbfcff 0%, #f7f9ff 100%);
   border-bottom: 1px solid var(--pf-border);
 }
 
 .pfd-panelTitle {
-  font-weight: 1000;
+  font-weight: 950;
+  letter-spacing: -0.02em;
   color: #0f172a;
+  font-size: 14px;
+  line-height: 1.2;
 }
 
 .pfd-panelSub {
   font-size: 12px;
   color: #94a3b8;
-  font-weight: 900;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.12);
+  border: 1px solid rgba(148, 163, 184, 0.20);
+  white-space: nowrap;
 }
 
+/* Body */
 .pfd-panelBody {
-  padding: 14px;
+  padding: 16px;
+}
+
+/* Optional: nicer spacing between rows inside panel */
+.pfd-panelBody .pfd-row + .pfd-row {
+  margin-top: 12px;
+}
+
+.pfd-panelHead {
+  position: relative;
+}
+
+.pfd-panelHead::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 4px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--pf-primary), var(--pf-primary-2));
+  opacity: 0.9;
 }
 
 /* Inputs */

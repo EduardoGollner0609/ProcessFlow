@@ -7,6 +7,13 @@ export type TaskDTO = {
     dueDate: string;
 }
 
+export type TaskRequestDTO = {
+    title: string;
+    description: string;
+    dueDate: string;
+    processId: string
+}
+
 export enum ProcessStatus {
     EM_ANDAMENTO = "EM_ANDAMENTO",
     CONCLUIDA = "CONCLUIDA"

@@ -35,12 +35,9 @@ public class ClientService {
     public ClientMinDTO insert(ClientRequestDTO clientRequestDTO) {
         User responsibleUser = authService.getAuthenticatedUser();
 
-        Client client = new Client(clientRequestDTO.name(),
-                clientRequestDTO.document(),
-                clientRequestDTO.email(),
-                clientRequestDTO.phone(),
-                responsibleUser
-        );
+        Client client = new Client();
+        copyDtoToEntity(client, clientRequestDTO);
+        client.setResponsibleUser(responsibleUser);
 
         return new ClientMinDTO(repository.save(client));
     }
@@ -50,10 +47,7 @@ public class ClientService {
 
         authService.verifyResponsible(client);
 
-        client.setDocument(clientRequestDTO.document());
-        client.setEmail(clientRequestDTO.email());
-        client.setName(clientRequestDTO.name());
-        client.setPhone(clientRequestDTO.phone());
+        copyDtoToEntity(client, clientRequestDTO);
 
         repository.save(client);
     }
@@ -65,5 +59,12 @@ public class ClientService {
         authService.verifyResponsible(client);
 
         repository.deleteById(id);
+    }
+
+    private void copyDtoToEntity(Client client, ClientRequestDTO clientRequestDTO) {
+        client.setDocument(clientRequestDTO.document());
+        client.setEmail(clientRequestDTO.email());
+        client.setName(clientRequestDTO.name());
+        client.setPhone(clientRequestDTO.phone());
     }
 }

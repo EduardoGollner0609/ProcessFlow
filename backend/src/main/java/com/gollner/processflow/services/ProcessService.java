@@ -59,12 +59,13 @@ public class ProcessService {
         Client client = new Client();
         client.setId(processRequestDTO.clientId());
 
-        Process process = new Process(processRequestDTO.title(),
-                processRequestDTO.description(),
-                ProcessStatus.EM_ANDAMENTO,
-                processRequestDTO.dueDate(),
-                responsibleUser,
-                client);
+        Process process = new Process();
+        process.setTitle(processRequestDTO.title());
+        process.setDescription(processRequestDTO.description());
+        process.setStatus(ProcessStatus.EM_ANDAMENTO);
+        process.setDueDate(processRequestDTO.dueDate());
+        process.setResponsibleUser(responsibleUser);
+        process.setClient(client);
 
         return new ProcessMinDTO(repository.save(process));
     }

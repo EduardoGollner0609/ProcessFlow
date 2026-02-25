@@ -7,14 +7,6 @@ import UseCreateProcess from "../../hooks/processes/use-create-process";
 import { ProcessMinDTO, ProcessRequestDTO } from "../../models/process";
 import UseUpdateProcess from "../../hooks/processes/use-update-process";
 
-export type ClientMinDTO = {
-  id: string;
-  name: string;
-  document: string;
-  email: string;
-  phone: string;
-};
-
 type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;

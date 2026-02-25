@@ -39,10 +39,7 @@ axios.interceptors.response.use(
         return response;
     },
     function (error) {
-        if (error.response.status === 401 || error.response.status === 403) {
-            authService.removeToken()
-            window.location.replace("/login");
-        }
+
         return Promise.reject(error);
     }
 );

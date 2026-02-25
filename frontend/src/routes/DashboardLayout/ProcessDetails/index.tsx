@@ -15,6 +15,10 @@ import {
 } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import UseProcessById from "../../../hooks/processes/use-process";
+import TaskPanel from "../../../components/TaskForm/index.tsx";
+import TaskForm from "../../../components/TaskForm/index.tsx";
+import { UseTasks } from "../../../hooks/tasks/use-tasks.ts";
+import { TaskDTO } from "../../../models/task.ts";
 
 /** ===== Tipos (ajuste conforme seu backend) ===== */
 export enum ProcessStatus {
@@ -86,6 +90,9 @@ export default function ProcessDetailsPage({
   const { processId } = useParams()
 
   const { data: process } = UseProcessById(processId!!);
+  const { data: tasks } = UseTasks(processId!!);
+
+  console.log(tasks)
 
   const images = [
     {
@@ -104,7 +111,7 @@ export default function ProcessDetailsPage({
 
   const navigate = useNavigate();
 
-  const [tab, setTab] = useState<TabKey>("comments");
+  const [tab, setTab] = useState<TabKey>("tasks");
   const [commentDraft, setCommentDraft] = useState("");
   const [taskDraft, setTaskDraft] = useState("");
 
@@ -235,6 +242,7 @@ export default function ProcessDetailsPage({
 
         {/* ===== Tabs / Conteúdo abaixo ===== */}
         <div className="pfd-tabs">
+          <TabButton active={tab === "tasks"} onClick={() => setTab("tasks")} icon={<FaTasks />} label="Tarefas" />
           <TabButton active={tab === "images"} onClick={() => setTab("images")} icon={<FaImage />} label="Imagens" />
           <TabButton
             active={tab === "comments"}
@@ -242,7 +250,6 @@ export default function ProcessDetailsPage({
             icon={<FaCommentDots />}
             label="Comentários"
           />
-          <TabButton active={tab === "tasks"} onClick={() => setTab("tasks")} icon={<FaTasks />} label="Tarefas" />
         </div>
 
         <div className="pfd-tabContent">
@@ -371,44 +378,20 @@ export default function ProcessDetailsPage({
 
           {tab === "tasks" ? (
             <div className="pfd-grid2">
-              <div className="pfd-panel">
-                <div className="pfd-panelHead">
-                  <div className="pfd-panelTitle">Nova tarefa</div>
-                  <button className="pfd-btn pfd-btn--primary" type="button" onClick={submitTask}>
-                    <FaPlus /> Adicionar
-                  </button>
-                </div>
-
-                <div className="pfd-panelBody">
-                  <div className="pfd-row">
-                    <input
-                      className="pfd-input"
-                      placeholder="Ex: Solicitar documento, enviar proposta, agendar vistoria..."
-                      value={taskDraft}
-                      onChange={(e) => setTaskDraft(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") submitTask();
-                      }}
-                    />
-                  </div>
-                  <div className="pfd-helper">
-                    Tarefas deixam o andamento mais previsível (e ficam ótimas pra status “Em andamento”).
-                  </div>
-                </div>
-              </div>
+              <TaskForm processId={processId!!} />
 
               <div className="pfd-panel">
                 <div className="pfd-panelHead">
                   <div className="pfd-panelTitle">Checklist</div>
-                  <div className="pfd-panelSub">{(process?.tasks?.length ?? 0).toString()} item(ns)</div>
+                  <div className="pfd-panelSub">{(tasks?.length ?? 0).toString()} item(ns)</div>
                 </div>
 
                 <div className="pfd-panelBody">
-                  {!process?.tasks?.length ? (
+                  {!tasks?.length ? (
                     <EmptyState icon={<FaTasks />} title="Nenhuma tarefa" subtitle="Adicione tarefas e marque conforme concluir." />
                   ) : (
                     <div className="pfd-taskList">
-                      {process?.tasks.map((t) => (
+                      {tasks?.map((t: TaskDTO) => (
                         <div className={`pfd-task ${t.status === "CONCLUIDA" ? "is-done" : ""}`} key={t.id}>
                           <button
                             className={`pfd-check ${t.status === "CONCLUIDA" ? "is-checked" : ""}`}
