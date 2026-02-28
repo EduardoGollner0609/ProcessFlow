@@ -43,13 +43,27 @@ public class TaskService {
         process.setId(taskRequestDTO.processId());
 
         Task task = new Task();
+        copyDtoToEntity(task, taskRequestDTO);
+        task.setStatus(TaskStatus.EM_ANDAMENTO);
+
+        return new TaskDTO(repository.save(task));
+    }
+
+    public void update(UUID id, TaskRequestDTO taskRequestDTO) {
+        Task task = repository.findById(id).orElseThrow(() -> new RuntimeException("Tarefa não encontrada"));
+        copyDtoToEntity(task, taskRequestDTO);
+        repository.save(task);
+    }
+
+    private void copyDtoToEntity(Task task, TaskRequestDTO taskRequestDTO) {
+        Process process = new Process();
+        process.setId(taskRequestDTO.processId());
+        task.setStatus(taskRequestDTO.status() != null ? TaskStatus.valueOf(taskRequestDTO.status()) : TaskStatus.EM_ANDAMENTO);
         task.setTitle(taskRequestDTO.title());
         task.setDescription(taskRequestDTO.description());
         task.setCreateMoment(Instant.now());
         task.setDueDate(taskRequestDTO.dueDate());
-        task.setStatus(TaskStatus.EM_ANDAMENTO);
-        task.setProcess(process);
 
-        return new TaskDTO(repository.save(task));
+        task.setProcess(process);
     }
 }

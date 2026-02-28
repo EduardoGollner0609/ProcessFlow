@@ -2,7 +2,6 @@ import { useMemo, useState } from "react";
 import {
   FaArrowLeft,
   FaCalendarAlt,
-  FaCheck,
   FaClock,
   FaCommentDots,
   FaDownload,
@@ -15,10 +14,9 @@ import {
 } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import UseProcessById from "../../../hooks/processes/use-process";
-import TaskPanel from "../../../components/TaskForm/index.tsx";
 import TaskForm from "../../../components/TaskForm/index.tsx";
-import { UseTasks } from "../../../hooks/tasks/use-tasks.ts";
-import { TaskDTO } from "../../../models/task.ts";
+import TasksCheckList from "../../../components/TasksCheckList/index.tsx";
+import EmptyState from "../../../components/EmptyState/index.tsx";
 
 /** ===== Tipos (ajuste conforme seu backend) ===== */
 export enum ProcessStatus {
@@ -76,23 +74,17 @@ type Props = {
 type TabKey = "images" | "comments" | "tasks";
 
 export default function ProcessDetailsPage({
-  onBack,
   onEdit,
   onDelete,
   onAddImage,
   onAddComment,
   onAddTask,
-  onToggleTask,
-  onDeleteTask,
   onDeleteComment,
 }: Props) {
 
   const { processId } = useParams()
 
   const { data: process } = UseProcessById(processId!!);
-  const { data: tasks } = UseTasks(processId!!);
-
-  console.log(tasks)
 
   const images = [
     {
@@ -379,50 +371,7 @@ export default function ProcessDetailsPage({
           {tab === "tasks" ? (
             <div className="pfd-grid2">
               <TaskForm processId={processId!!} />
-
-              <div className="pfd-panel">
-                <div className="pfd-panelHead">
-                  <div className="pfd-panelTitle">Checklist</div>
-                  <div className="pfd-panelSub">{(tasks?.length ?? 0).toString()} item(ns)</div>
-                </div>
-
-                <div className="pfd-panelBody">
-                  {!tasks?.length ? (
-                    <EmptyState icon={<FaTasks />} title="Nenhuma tarefa" subtitle="Adicione tarefas e marque conforme concluir." />
-                  ) : (
-                    <div className="pfd-taskList">
-                      {tasks?.map((t: TaskDTO) => (
-                        <div className={`pfd-task ${t.status === "CONCLUIDA" ? "is-done" : ""}`} key={t.id}>
-                          <button
-                            className={`pfd-check ${t.status === "CONCLUIDA" ? "is-checked" : ""}`}
-                            type="button"
-                            title={t.status === "CONCLUIDA" ? "Marcar como pendente" : "Marcar como concluída"}
-                            onClick={() => onToggleTask?.(t.id)}
-                          >
-                            <FaCheck />
-                          </button>
-
-                          <div className="pfd-taskText">
-                            <div className="pfd-taskTitle">{t.title}</div>
-                            <div className="pfd-taskSub">{formatDate(t.createMoment)}</div>
-                          </div>
-
-                          {onDeleteTask ? (
-                            <button
-                              className="pfd-miniDanger"
-                              type="button"
-                              title="Excluir tarefa"
-                              onClick={() => onDeleteTask(t.id)}
-                            >
-                              <FaRegTrashAlt />
-                            </button>
-                          ) : null}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
+              <TasksCheckList processId={processId!!} />
             </div>
           ) : null}
         </div>
@@ -477,18 +426,6 @@ function TabButton({
       </span>
       {label}
     </button>
-  );
-}
-
-function EmptyState({ icon, title, subtitle }: { icon: React.ReactNode; title: string; subtitle: string }) {
-  return (
-    <div className="pfd-emptyState">
-      <div className="pfd-emptyIcon" aria-hidden="true">
-        {icon}
-      </div>
-      <div className="pfd-emptyTitle">{title}</div>
-      <div className="pfd-emptySub">{subtitle}</div>
-    </div>
   );
 }
 
@@ -552,3 +489,5 @@ function relativeDateHint(dueDate: string, status: ProcessStatus): string {
   if (diff === -1) return "venceu ontem";
   return diff > 0 ? `faltam ${diff} dias` : `atrasado ${Math.abs(diff)} dia(s)`;
 }
+
+

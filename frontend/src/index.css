@@ -908,7 +908,7 @@ main {
 }
 
 /* Optional: nicer spacing between rows inside panel */
-.pfd-panelBody .pfd-row + .pfd-row {
+.pfd-panelBody .pfd-row+.pfd-row {
   margin-top: 12px;
 }
 
@@ -3037,4 +3037,343 @@ main {
   opacity: 0.55;
   cursor: not-allowed;
   box-shadow: none;
+}
+
+.pfd-taskCard {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+  background: white;
+  transition: 0.2s;
+}
+
+.pfd-taskCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.pfd-taskHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pfd-taskTitle {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.pfd-taskDescription {
+  margin-top: 6px;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+.pfd-taskMeta {
+  margin-top: 10px;
+  display: flex;
+  gap: 20px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.pfd-taskActions {
+  margin-top: 10px;
+  display: flex;
+  gap: 8px;
+}
+
+/* STATUS */
+
+.pfd-statusChip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.pfd-statusChip.progress {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.pfd-statusChip.done {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.pfd-statusChip.cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.pfd-taskCard.progress {
+  border-color: rgba(29, 78, 216, 0.22);
+  background: rgba(219, 234, 254, 0.25);
+}
+
+.pfd-taskCard.done {
+  border-color: rgba(22, 163, 74, 0.22);
+  background: rgba(220, 252, 231, 0.30);
+}
+
+.pfd-taskCard.cancelled {
+  border-color: rgba(185, 28, 28, 0.18);
+  background: rgba(254, 226, 226, 0.28);
+}
+
+.pfd-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.pfd-label {
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.pfd-fieldHint {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* =========================================================
+   TASK STATUS (chip + card + menu)
+========================================================= */
+
+/* container do chip + menu */
+.pfd-statusWrap{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* chip clicável (usa teu visual padrão) */
+.pfd-statusChip{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 1000;
+  letter-spacing: 0.01em;
+  border: 1px solid rgba(229, 231, 235, 0.95);
+  background: #fff;
+  color: #334155;
+  box-shadow: var(--pf-shadow-sm);
+  cursor: pointer;
+  transition: transform .12s ease, background .12s ease, border-color .12s ease, box-shadow .12s ease;
+}
+
+.pfd-statusChip:hover{
+  transform: translateY(-1px);
+  background: rgba(11, 60, 145, 0.05);
+  border-color: rgba(11, 60, 145, 0.22);
+}
+
+/* menu dropdown */
+.pfd-statusMenu{
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 190px;
+  padding: 8px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.26);
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 60px rgba(2, 6, 23, 0.18), 0 2px 10px rgba(2, 6, 23, 0.06);
+  z-index: 30;
+}
+
+/* opção do menu */
+.pfd-statusOption{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 10px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  font-weight: 950;
+  font-size: 13px;
+  color: #0f172a;
+  transition: background .12s ease, transform .12s ease, border-color .12s ease;
+}
+
+.pfd-statusOption:hover{
+  background: rgba(11, 60, 145, 0.06);
+  border-color: rgba(11, 60, 145, 0.12);
+  transform: translateY(-1px);
+}
+
+/* bolinha (dot) no menu */
+.pfd-statusOption::after{
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+  background: #94a3b8;
+  flex: 0 0 9px;
+}
+
+/* ===========================
+   STATUS VARIANTS (chip + card + option)
+=========================== */
+
+/* EM_ANDAMENTO */
+.pfd-statusChip.progress{
+  border-color: rgba(14, 116, 144, 0.25);
+  background: rgba(14, 116, 144, 0.08);
+  color: #0e7490;
+}
+
+.pfd-taskCard.progress{
+  border-color: rgba(14, 116, 144, 0.18);
+  background:
+    linear-gradient(180deg, rgba(14, 116, 144, 0.08), rgba(255,255,255,1));
+}
+
+.pfd-statusOption.progress{
+  color: #0e7490;
+}
+.pfd-statusOption.progress:hover{
+  background: rgba(14, 116, 144, 0.08);
+  border-color: rgba(14, 116, 144, 0.16);
+}
+.pfd-statusOption.progress::after{
+  background: #0e7490;
+}
+
+/* CONCLUIDA */
+.pfd-statusChip.done{
+  border-color: rgba(34, 197, 94, 0.25);
+  background: rgba(34, 197, 94, 0.10);
+  color: #16a34a;
+}
+
+.pfd-taskCard.done{
+  border-color: rgba(34, 197, 94, 0.18);
+  background:
+    linear-gradient(180deg, rgba(34, 197, 94, 0.10), rgba(255,255,255,1));
+}
+
+.pfd-statusOption.done{
+  color: #16a34a;
+}
+.pfd-statusOption.done:hover{
+  background: rgba(34, 197, 94, 0.10);
+  border-color: rgba(34, 197, 94, 0.16);
+}
+.pfd-statusOption.done::after{
+  background: #22c55e;
+}
+
+/* CANCELADA */
+.pfd-statusChip.cancelled{
+  border-color: rgba(239, 68, 68, 0.22);
+  background: rgba(239, 68, 68, 0.10);
+  color: #b91c1c;
+}
+
+.pfd-taskCard.cancelled{
+  border-color: rgba(239, 68, 68, 0.16);
+  background:
+    linear-gradient(180deg, rgba(239, 68, 68, 0.10), rgba(255,255,255,1));
+}
+
+.pfd-statusOption.cancelled{
+  color: #b91c1c;
+}
+.pfd-statusOption.cancelled:hover{
+  background: rgba(239, 68, 68, 0.10);
+  border-color: rgba(239, 68, 68, 0.16);
+}
+.pfd-statusOption.cancelled::after{
+  background: #ef4444;
+}
+
+/* Pequeno ajuste no header do card p/ não “pular” */
+.pfd-taskHeader{
+  gap: 12px;
+}
+
+/* Responsivo: se o menu estourar, trava no mínimo */
+@media (max-width: 520px){
+  .pfd-statusMenu{
+    min-width: 170px;
+  }
+}
+
+/* TASK META (datas com ícone lado a lado, alinhado e bonito) */
+.pfd-taskMeta{
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 12.5px;
+  color: #64748b;
+}
+
+/* cada item (Criado em / Prazo) vira uma “pill” */
+.pfd-taskMeta > span{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+
+
+  font-weight: 900;
+}
+
+/* ícone alinhado e com “badge” leve */
+.pfd-taskMeta > span svg{
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+  padding: 6px;
+  box-sizing: content-box;
+  border-radius: 12px;
+  background: rgba(11, 60, 145, 0.08);
+  border: 1px solid rgba(11, 60, 145, 0.14);
+  color: var(--pf-primary);
+}
+
+/* quando o card está em status específico, deixa o badge do ícone combinando */
+.pfd-taskCard.progress .pfd-taskMeta > span svg{
+  background: rgba(14, 116, 144, 0.10);
+  border-color: rgba(14, 116, 144, 0.18);
+  color: #0e7490;
+}
+
+.pfd-taskCard.done .pfd-taskMeta > span svg{
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.18);
+  color: #16a34a;
+}
+
+.pfd-taskCard.cancelled .pfd-taskMeta > span svg{
+  background: rgba(239, 68, 68, 0.10);
+  border-color: rgba(239, 68, 68, 0.16);
+  color: #b91c1c;
+}
+
+.pfd-taskHeadRight{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* opcional: garante que a lixeira não "empurre" o status */
+.pfd-taskTrashTop{
+  margin-left: 0;
 }

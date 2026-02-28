@@ -35,5 +35,11 @@ public class TaskController {
         return ResponseEntity.created(uri).body(task);
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Void> update(@PathVariable UUID id, @RequestBody TaskRequestDTO taskRequestDTO) {
+        service.update(id, taskRequestDTO);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }

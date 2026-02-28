@@ -74,10 +74,16 @@ export default function TaskForm({ processId }: TaskFormProps) {
             </div>
 
             <div className="pfd-panelBody">
-                <div className="pfd-row">
+
+                {/* ===== TÍTULO ===== */}
+                <div className="pfd-field">
+                    <label className="pfd-label">
+                        Título da tarefa
+                    </label>
+
                     <input
                         className="pfd-input"
-                        placeholder="Título (ex: Solicitar documento...)"
+                        placeholder="Ex: Solicitar documento do cliente"
                         {...register("title")}
                         onKeyDown={(e) => {
                             if (e.key === "Enter") {
@@ -86,27 +92,63 @@ export default function TaskForm({ processId }: TaskFormProps) {
                             }
                         }}
                     />
-                    {errors.title ? <div className="pfd-error">{errors.title.message}</div> : null}
+
+                    <span className="pfd-fieldHint">
+                        Defina uma ação clara que precisa ser realizada.
+                    </span>
+
+                    {errors.title && (
+                        <div className="pfd-error">{errors.title.message}</div>
+                    )}
                 </div>
 
-                <div className="pfd-row">
+                {/* ===== DESCRIÇÃO ===== */}
+                <div className="pfd-field">
+                    <label className="pfd-label">
+                        Descrição
+                    </label>
+
                     <textarea
                         className="pfd-input"
-                        placeholder="Descrição (opcional)"
                         rows={3}
+                        placeholder="Detalhes adicionais, observações ou instruções..."
                         {...register("description")}
                     />
-                    {errors.description ? <div className="pfd-error">{errors.description.message}</div> : null}
+
+                    <span className="pfd-fieldHint">
+                        Opcional — útil para explicar o que deve ser feito.
+                    </span>
+
+                    {errors.description && (
+                        <div className="pfd-error">{errors.description.message}</div>
+                    )}
                 </div>
 
-                <div className="pfd-row">
-                    <input className="pfd-input" type="date" {...register("dueDate")} />
-                    {errors.dueDate ? <div className="pfd-error">{errors.dueDate.message}</div> : null}
+                {/* ===== PRAZO ===== */}
+                <div className="pfd-field">
+                    <label className="pfd-label">
+                        Prazo da tarefa
+                    </label>
+
+                    <input
+                        className="pfd-input"
+                        type="date"
+                        {...register("dueDate")}
+                    />
+
+                    <span className="pfd-fieldHint">
+                        Defina quando esta tarefa deve ser concluída.
+                    </span>
+
+                    {errors.dueDate && (
+                        <div className="pfd-error">{errors.dueDate.message}</div>
+                    )}
                 </div>
 
                 <div className="pfd-helper">
-                    Tarefas deixam o andamento mais previsível (e ficam ótimas pra status “Em andamento”).
+                    💡 Tarefas ajudam a acompanhar o progresso do processo e evitar atrasos.
                 </div>
+
             </div>
         </div>
     );

@@ -10,6 +10,7 @@ export type TaskDTO = {
 export type TaskRequestDTO = {
     title: string;
     description: string;
+    status?: string;
     dueDate: string;
     processId: string
 }

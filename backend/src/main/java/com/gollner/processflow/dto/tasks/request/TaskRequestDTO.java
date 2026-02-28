@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public record TaskRequestDTO(String title,
                              String description,
+                             String status,
                              Instant dueDate,
                              UUID processId) {
 }
