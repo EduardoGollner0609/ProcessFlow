@@ -3377,3 +3377,187 @@ main {
 .pfd-taskTrashTop{
   margin-left: 0;
 }
+
+.pfd-panelBody {
+  max-height: 320px !important;
+  overflow-y: auto;
+}
+
+.pfClientSection {
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(248, 250, 252, 0.9), #fff);
+  padding: 14px;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.04);
+}
+
+.pfClientSection__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.pfClientSection__label {
+  margin: 0;
+}
+
+.pfClientSection__subtitle {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+.pfClientSection__divider {
+  height: 1px;
+  background: rgba(148, 163, 184, 0.18);
+  margin: 14px 0;
+}
+
+.pfClientLinkBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(37, 99, 235, 0.18);
+  background: rgba(37, 99, 235, 0.06);
+  color: #1d4ed8;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+  transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+}
+
+.pfClientLinkBtn:hover {
+  transform: translateY(-1px);
+  background: rgba(37, 99, 235, 0.1);
+  border-color: rgba(37, 99, 235, 0.28);
+}
+
+.pfClientSearchWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.pfClientSearchIcon {
+  position: absolute;
+  left: 12px;
+  color: #94a3b8;
+  font-size: 13px;
+  pointer-events: none;
+}
+
+.pfClientSearchInput {
+  padding-left: 36px;
+}
+
+.pfClientList {
+  margin-top: 10px;
+  border: 1px solid rgba(229, 231, 235, 0.95);
+  border-radius: 16px;
+  background: #fff;
+  max-height: 260px;
+  overflow-y: auto;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.pfClientList.is-disabled {
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.pfClientList__state {
+  padding: 16px;
+  text-align: center;
+  color: #64748b;
+  font-size: 13px;
+}
+
+.pfClientOption {
+  width: 100%;
+  position: relative;
+  text-align: left;
+  border: 0;
+  background: #fff;
+  padding: 14px;
+  transition: background 0.12s ease;
+}
+
+.pfClientOption:hover {
+  background: rgba(11, 60, 145, 0.04);
+}
+
+.pfClientOption.is-selected {
+  background: linear-gradient(180deg, rgba(37, 99, 235, 0.08), rgba(37, 99, 235, 0.03));
+}
+
+.pfClientOption__top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pfClientOption__avatar {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-weight: 900;
+  color: #1d4ed8;
+  background: rgba(37, 99, 235, 0.1);
+  border: 1px solid rgba(37, 99, 235, 0.14);
+}
+
+.pfClientOption__content {
+  min-width: 0;
+  flex: 1;
+}
+
+.pfClientOption__name {
+  font-size: 14px;
+  font-weight: 900;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.pfClientOption__document {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #64748b;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+.pfClientOption__tag {
+  margin-top: 10px;
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 900;
+  color: #1d4ed8;
+  background: rgba(37, 99, 235, 0.1);
+  border: 1px solid rgba(37, 99, 235, 0.18);
+}
+
+.pfClientOption__line {
+  position: absolute;
+  left: 64px;
+  right: 14px;
+  bottom: 0;
+  height: 1px;
+  background: rgba(229, 231, 235, 0.9);
+}
+
+.pfClientPagination {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}

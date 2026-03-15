@@ -6,6 +6,8 @@ import useClients from "../../hooks/clients/use-clients";
 import UseCreateProcess from "../../hooks/processes/use-create-process";
 import { ProcessMinDTO, ProcessRequestDTO } from "../../models/process";
 import UseUpdateProcess from "../../hooks/processes/use-update-process";
+import { FaArrowRight, FaSearch, FaUsers } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 type Props = {
   open: boolean;
@@ -199,91 +201,117 @@ export default function ProcessFormDialog({ open, onOpenChange, process }: Props
               )}
             </div>
 
-            <div className="pfField pfField--full">
-              <label className="pfLabel">Cliente *</label>
+    <div className="pfField pfField--full">
+  <div className="pfClientSection">
+    <div className="pfClientSection__header">
+      <div>
+        <label className="pfLabel pfClientSection__label">Cliente *</label>
+        <p className="pfClientSection__subtitle">
+          Busque e selecione o cliente responsável por este processo.
+        </p>
+      </div>
 
-              {/* opcional: bloquear troca de cliente no edit */}
-              <input
-                type="text"
-                className="pfInput"
-                placeholder={isEdit ? "Busca desabilitada na edição" : "Buscar cliente pelo nome..."}
-                value={search}
-                onChange={(e) => {
-                  if (isEdit) return;
-                  setSearch(e.target.value);
-                  setPage(0);
-                }}
-                disabled={isEdit}
-              />
+      {!isEdit && (
+        <Link to="/dashboard/clients" className="pfClientLinkBtn">
+          <FaUsers />
+          Ir para clientes
+          <FaArrowRight />
+        </Link>
+      )}
+    </div>
 
-              <div
-                style={{
-                  marginTop: 8,
-                  border: "1px solid #e5e7eb",
-                  borderRadius: 10,
-                  maxHeight: 220,
-                  overflow: "auto",
-                  opacity: isEdit ? 0.75 : 1,
-                  pointerEvents: isEdit ? "none" : "auto",
-                }}
-              >
-                {isLoading && <div style={{ padding: 12 }}>Carregando...</div>}
+    <div className="pfClientSection__divider" />
 
-                {!isLoading && clients.length === 0 && (
-                  <div style={{ padding: 12, color: "#6b7280" }}>Nenhum cliente encontrado.</div>
-                )}
+    <div className="pfClientSearchWrap">
+      <FaSearch className="pfClientSearchIcon" />
 
-                {clients.map((c) => {
-                  const selected = c.id === selectedClientId;
+      <input
+        type="text"
+        className="pfInput pfClientSearchInput"
+        placeholder={isEdit ? "Busca desabilitada na edição" : "Buscar cliente pelo nome..."}
+        value={search}
+        onChange={(e) => {
+          if (isEdit) return;
+          setSearch(e.target.value);
+          setPage(0);
+        }}
+        disabled={isEdit}
+      />
+    </div>
 
-                  return (
-                    <button
-                      key={c.id}
-                      type="button"
-                      onClick={() => setValue("clientId", c.id)}
-                      style={{
-                        width: "100%",
-                        textAlign: "left",
-                        padding: "10px 12px",
-                        border: "none",
-                        background: selected ? "#eef2ff" : "white",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <div style={{ fontWeight: 600 }}>{c.name}</div>
-                      <div style={{ fontSize: 12, color: "#6b7280" }}>{c.document}</div>
-                    </button>
-                  );
-                })}
+    <div
+      className={`pfClientList ${isEdit ? "is-disabled" : ""}`}
+    >
+      {isLoading && (
+        <div className="pfClientList__state">Carregando clientes...</div>
+      )}
+
+      {!isLoading && clients.length === 0 && (
+        <div className="pfClientList__state">
+          Nenhum cliente encontrado.
+        </div>
+      )}
+
+      {clients.map((c, index) => {
+        const selected = c.id === selectedClientId;
+
+        return (
+          <button
+            key={c.id}
+            type="button"
+            onClick={() => setValue("clientId", c.id)}
+            className={`pfClientOption ${selected ? "is-selected" : ""}`}
+          >
+            <div className="pfClientOption__top">
+              <div className="pfClientOption__avatar">
+                {c.name?.charAt(0)?.toUpperCase() || "C"}
               </div>
 
-              {/* Paginação */}
-              <div style={{ display: "flex", justifyContent: "space-between", marginTop: 8 }}>
-                <button
-                  type="button"
-                  className="pfBtn pfBtn--ghost"
-                  onClick={() => setPage((p) => Math.max(0, p - 1))}
-                  disabled={page === 0 || isFetching || isEdit}
-                >
-                  Anterior
-                </button>
-
-                <button
-                  type="button"
-                  className="pfBtn pfBtn--ghost"
-                  onClick={() => setPage((p) => p + 1)}
-                  disabled={!hasNext || isFetching || isEdit}
-                >
-                  {isFetching ? "..." : "Próxima"}
-                </button>
+              <div className="pfClientOption__content">
+                <div className="pfClientOption__name">{c.name}</div>
+                <div className="pfClientOption__document">{c.document}</div>
               </div>
-
-              {errors.clientId ? (
-                <small className="pfError">{errors.clientId.message}</small>
-              ) : (
-                <small className="pfHelp">Busque e selecione o cliente.</small>
-              )}
             </div>
+
+            {selected && (
+              <div className="pfClientOption__tag">Selecionado</div>
+            )}
+
+            {index < clients.length - 1 && <div className="pfClientOption__line" />}
+          </button>
+        );
+      })}
+    </div>
+
+    <div className="pfClientPagination">
+      <button
+        type="button"
+        className="pfBtn pfBtn--ghost"
+        onClick={() => setPage((p) => Math.max(0, p - 1))}
+        disabled={page === 0 || isFetching || isEdit}
+      >
+        Anterior
+      </button>
+
+      <button
+        type="button"
+        className="pfBtn pfBtn--ghost"
+        onClick={() => setPage((p) => p + 1)}
+        disabled={!hasNext || isFetching || isEdit}
+      >
+        {isFetching ? "..." : "Próxima"}
+      </button>
+    </div>
+
+    {errors.clientId ? (
+      <small className="pfError">{errors.clientId.message}</small>
+    ) : (
+      <small className="pfHelp">
+        Selecione um cliente da lista abaixo.
+      </small>
+    )}
+  </div>
+</div>
           </div>
 
           <div className="pfDivider pfDivider--soft" />

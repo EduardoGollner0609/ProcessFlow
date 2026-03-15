@@ -17,6 +17,9 @@ import UseProcessById from "../../../hooks/processes/use-process";
 import TaskForm from "../../../components/TaskForm/index.tsx";
 import TasksCheckList from "../../../components/TasksCheckList/index.tsx";
 import EmptyState from "../../../components/EmptyState/index.tsx";
+import CommentForm from "../../../components/CommentForm/index.tsx";
+import CommentsTimeline from "../../../components/CommentsTimeLine/index.tsx";
+import ProcessFormDialog from "../../../components/CreateProcessDialog/index.tsx";
 
 /** ===== Tipos (ajuste conforme seu backend) ===== */
 export enum ProcessStatus {
@@ -82,6 +85,8 @@ export default function ProcessDetailsPage({
   onDeleteComment,
 }: Props) {
 
+  const [showEditProcessDialog, setShowEditProcessDialog] = useState<boolean>(false);
+
   const { processId } = useParams()
 
   const { data: process } = UseProcessById(processId!!);
@@ -145,7 +150,7 @@ export default function ProcessDetailsPage({
         </button>
 
         <div className="pfd-topActions">
-          <button className="pfd-btn pfd-btn--ghost" type="button" onClick={() => onEdit?.(process?.id!!)}>
+          <button className="pfd-btn pfd-btn--ghost" type="button" onClick={() => setShowEditProcessDialog(true)}>
             <FaLink /> Editar
           </button>
           <button className="pfd-btn pfd-btn--danger" type="button" onClick={() => onDelete?.(process?.id!!)}>
@@ -235,16 +240,34 @@ export default function ProcessDetailsPage({
         {/* ===== Tabs / Conteúdo abaixo ===== */}
         <div className="pfd-tabs">
           <TabButton active={tab === "tasks"} onClick={() => setTab("tasks")} icon={<FaTasks />} label="Tarefas" />
-          <TabButton active={tab === "images"} onClick={() => setTab("images")} icon={<FaImage />} label="Imagens" />
           <TabButton
             active={tab === "comments"}
             onClick={() => setTab("comments")}
             icon={<FaCommentDots />}
             label="Comentários"
           />
+          <TabButton active={tab === "images"} onClick={() => setTab("images")} icon={<FaImage />} label="Imagens" />
         </div>
 
         <div className="pfd-tabContent">
+          {tab === "tasks" ? (
+            <div className="pfd-grid2">
+              <TaskForm processId={processId!!} />
+              <TasksCheckList processId={processId!!} />
+            </div>
+          ) : null}
+
+          {tab === "comments" ? (
+            <div className="pfd-grid2">
+              <CommentForm
+                processId={processId!!}
+              />
+              <CommentsTimeline
+                processId={processId!!}
+              />
+            </div>
+          ) : null}
+
           {tab === "images" ? (
             <div className="pfd-grid2">
               <div className="pfd-panel">
@@ -300,82 +323,17 @@ export default function ProcessDetailsPage({
             </div>
           ) : null}
 
-          {tab === "comments" ? (
-            <div className="pfd-grid2">
-              <div className="pfd-panel">
-                <div className="pfd-panelHead">
-                  <div className="pfd-panelTitle">Novo comentário</div>
-                  <button className="pfd-btn pfd-btn--primary" type="button" onClick={submitComment}>
-                    <FaPlus /> Publicar
-                  </button>
-                </div>
 
-                <div className="pfd-panelBody">
-                  <textarea
-                    className="pfd-textarea"
-                    placeholder="Escreva um comentário para registrar atualizações, pendências ou observações..."
-                    value={commentDraft}
-                    onChange={(e) => setCommentDraft(e.target.value)}
-                    rows={6}
-                  />
-                  <div className="pfd-helper">
-                    Use comentários para criar um histórico claro do que foi feito e do que falta.
-                  </div>
-                </div>
-              </div>
-
-              <div className="pfd-panel">
-                <div className="pfd-panelHead">
-                  <div className="pfd-panelTitle">Linha do tempo</div>
-                  <div className="pfd-panelSub">{(process?.comments?.length ?? 0).toString()} registro(s)</div>
-                </div>
-
-                <div className="pfd-panelBody">
-                  {!process?.comments?.length ? (
-                    <EmptyState
-                      icon={<FaCommentDots />}
-                      title="Sem comentários ainda"
-                      subtitle="Quando você publicar, eles aparecem em ordem."
-                    />
-                  ) : (
-                    <div className="pfd-timeline">
-                      {process?.comments.map((c) => (
-                        <div className="pfd-comment" key={c.id}>
-                          <div className="pfd-commentHead">
-                            <div className="pfd-commentAuthor">Eduardo</div>
-                            <div className="pfd-commentDate">
-                              {formatDate(c.createMoment)} • {formatTime(c.createMoment)}
-                            </div>
-
-                            {onDeleteComment ? (
-                              <button
-                                className="pfd-miniDanger"
-                                type="button"
-                                title="Excluir comentário"
-                                onClick={() => onDeleteComment(c.id)}
-                              >
-                                <FaRegTrashAlt />
-                              </button>
-                            ) : null}
-                          </div>
-                          <div className="pfd-commentBody">{c.content}</div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          ) : null}
-
-          {tab === "tasks" ? (
-            <div className="pfd-grid2">
-              <TaskForm processId={processId!!} />
-              <TasksCheckList processId={processId!!} />
-            </div>
-          ) : null}
         </div>
       </div>
+
+      {
+        showEditProcessDialog && <ProcessFormDialog
+          open={showEditProcessDialog}
+          onOpenChange={setShowEditProcessDialog}
+          process={process}
+        />
+      }
     </div>
   );
 }

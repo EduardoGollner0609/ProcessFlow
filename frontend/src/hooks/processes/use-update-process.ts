@@ -10,8 +10,9 @@ export default function UseUpdateProcess() {
 
     return useMutation({
         mutationFn: ({ id, process }: UseUpdateProcessProps) => processService.update(id, process),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["processes"] })
+        onSuccess: (_, variables) => {
+            queryClient.invalidateQueries({ queryKey: ["processes"] });
+            queryClient.invalidateQueries({ queryKey: ["process", variables.id] });
         },
         onError: () => {
             toast.error("Erro ao atualizar processo")

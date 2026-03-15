@@ -3,3 +3,8 @@ export type CommentDTO = {
     content: string;
     createMoment: string
 }
+
+export type CommentRequestDTO = {
+    content: string;
+    processId: string;
+}

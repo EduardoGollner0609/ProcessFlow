@@ -1,7 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 import { TaskDTO, TaskRequestDTO } from "../models/task";
 import { requestBackend } from "../utils/request";
-import { ProcessRequestDTO } from "../models/process";
 
 export async function insert(taskRequest: TaskRequestDTO): Promise<TaskDTO> {
     const config: AxiosRequestConfig = {

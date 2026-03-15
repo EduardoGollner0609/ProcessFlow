@@ -103,18 +103,6 @@ export default function SideBar() {
             <FaFolderOpen />
             <span className="pf-navLabel">Processos</span>
           </NavLink>
-
-          <NavLink
-            to="/dashboard/tasks"
-            onClick={close}
-            className={({ isActive }) =>
-              isActive ? "pf-navItem is-active" : "pf-navItem"
-            }
-          >
-            <FaTasks />
-            <span className="pf-navLabel">Tarefas</span>
-          </NavLink>
-
           <NavLink
             to="/dashboard/clients"
             onClick={close}
